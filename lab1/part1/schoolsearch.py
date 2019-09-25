@@ -50,7 +50,7 @@ def data_format_error(student_index):
 def missing_data_error():
     print("Error: Could not find students.txt")
 
-# Commands for User 
+# Command Line Functions
 
 def print_help():
     print("Available Commands:")
@@ -62,15 +62,31 @@ def print_help():
     print("I[nfo]")
     print("Q[uit]")
 
+def find_teacher(command_line, students):
+    if len(command_line) != 2:
+        syntax_error("T[eacher]  <lastname>")
+        return
+    for student in students:
+        if command_line[1] == student.teacherLastName:
+            
+
 def find_student(command_line, students):
     if len(command_line) < 3:
         bus_route = False
     if len(command_line) > 3 or len(command_line) < 2:
         syntax_error("S[tudent]  <lastname> [B[us]]")
-        return 1
+        return
     else:
-        bus_route = command_line[2] == "B" 
-    
+        # Can this be bus_route = command_line[2][0]?
+        bus_route = command_line[2] == "Bus" or (command_line[2] == "B")
+    for student in students
+        if command_line[1] == student.lastName:
+            if bus_route:
+                print(student.lastName + ", " + student.firstName + " " + str(student.busRouteNum))
+            else:
+                print(student.lastName + "," + student.lastName + " " + str(student.busRouteNum))  
+    return 0
+
 
 # Command Functions
 
