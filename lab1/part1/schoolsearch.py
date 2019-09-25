@@ -68,7 +68,8 @@ def find_teacher(command_line, students):
         return
     for student in students:
         if command_line[1] == student.teacherLastName:
-            
+            print(student.lastName + "," + student.firstName)
+    return
 
 def find_student(command_line, students):
     if len(command_line) < 3:
@@ -85,8 +86,66 @@ def find_student(command_line, students):
                 print(student.lastName + ", " + student.firstName + " " + str(student.busRouteNum))
             else:
                 print(student.lastName + "," + student.lastName + " " + str(student.busRouteNum))  
-    return 0
+    return
 
+def find_grade(command_line, students):
+    if len(command_line) != 3 or not is_int(command_line[1]):
+        syntax_error("G[rade]:  <number> [H[igh]|[L[ow]]")
+        return
+    if len(command_line) == 3:
+        low = False
+        high = False
+        high_or_low = command_line[2]
+        if high_or_low[0] == "H":
+            high = True
+        elif high_or_low[0] == "L":
+            low = True
+        else:
+            syntax_error("G[rade]:  <number> [H[igh]|[L[ow]]")
+    if not low and not high:
+        for student in students:
+            if int(command_line[1]) == student.studentGrade:
+                print(student.lastName + "," + student.firstName)
+    if low:
+        lowest_grade = students[0]
+        for student in students:
+            if int(command_line[0]) == student.studentGrade and (student.studentGPA < lowest_grade.studentGPA):
+                lowest_grade = student
+        print(lowest_grade.lastName + "," + lowest_grade.firstName + " " + str(student.studentGrade) + " " str(student.classroomNum))
+    return
+
+def find_average(command_line, students):
+    count = 0
+    sum = 0
+    if len(command_line) < 2 or not is_int(command_line[1]):
+        syntax_error("A[verage]  <grade>")
+        return
+    for student in students:
+        if int(command_line[1]) == student.studentGrade:
+            count += 1 
+            sum += student.studentGPA
+        if count == 0:
+            divide_by_zero_error()
+            return
+        print(command_line[1] + " " + str(sum/counter))
+        return
+
+def find_bus(command_line, students):
+    if len(command_line) != 2 or not is_int(command_line[1]):
+        syntax_error("B[us]  <route number>")
+        return
+    for student in students:
+        if int(command_line[1]) == student.studentGrade:
+            print(student.lastName + "," + student.firstName + " " + str(student.studentGrade) + " " + str(student.classroomNum))
+    return
+
+def print_info(command_line, students):
+    student_grades = []
+    for student in students:
+        student_grades[student.studentGrade] += 1
+    for i int range(0, 7):
+        print(str(i) + ": " + str(student_grades[i]))
+    return
 
 # Command Functions
 
@@ -94,7 +153,7 @@ def start(running, students):
     command_line = input(">").split()
     if(len(command_line) < 1):
         print_help()
-        return 1
+        return
     select = command_line[0]
     select = select.split(":")[0]
     if select[0] == "S":
@@ -120,7 +179,7 @@ def start(running, students):
         exit
     else:
         print_help()
-        return 1    
+        return  
 
 def get_data(input_text):
     all_student_data = []
