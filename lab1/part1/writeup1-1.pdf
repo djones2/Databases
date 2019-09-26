@@ -1,0 +1,10 @@
+Team Members: Daniel Jones, Amanda Krysl
+
+Initial Decisions: We decided to use Python and are using Visual Studio Code as our environment.
+
+Notes on selected internal structure:
+   - We decided to use an array to store our data
+   - We created a Student class in which each line of data in the students.txt file is stored in an organized Student object
+
+Task Log:
+
