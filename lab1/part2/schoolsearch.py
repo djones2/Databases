@@ -77,13 +77,14 @@ def print_help():
 
 def find_teacher(command_line, students, teachers):
     if len(command_line) != 2:
-        syntax_error("T[eacher]  <lastname>")
+        syntax_error("T[eacher]:  <lastname>")
         return
+    classroomNum = -1
     for teacher in teachers:
-       if command_line[1] == teacherLastName:
+       if command_line[1] == teacher.lastName:
           classroomNum = teacher.classroomNum
     for student in students:
-        if command_line[1] == classroomNum:
+        if student.classroomNum == classroomNum:
             print(student.lastName + "," + student.firstName)
     return
 
