@@ -258,6 +258,8 @@ def find_relationship(command_line, students, teachers):
                 teach = True
             elif command_line[2][0] == "B":
                 bus = True
+            else:
+               syntax_error("R[elationship]: <GPA number> [G[rade]|T[eacher]|B[us]]")
         else:
             for student in students:
                 if student.studentGPA <= float(command_line[1]):
