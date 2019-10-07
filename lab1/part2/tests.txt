@@ -399,11 +399,19 @@ Relationship: 2.8 Bus
 
 //TC-41
 // Tests Requirments N5
+// long relationship command between GPA and bus
+// expected output: 
+// Error: Invalid syntax
+// R[elationship]: <GPA number> [G[rade]|T[eacher]|B[us]]
+R: 2.8 F
+
+//TC-42
+// Tests Requirments N5
 // short quit command
 // expected output: program terminates
 Q
 
-//TC-42
+//TC-43
 // Tests Requirments R3, R13
 // short quit command
 // expected output: program terminates
