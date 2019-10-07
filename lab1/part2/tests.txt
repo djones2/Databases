@@ -199,13 +199,211 @@ Info
 // expected output: <available commands prompt>
 $
 
-//TC-21
-// Tests Requirments R3, R13
+// TC-21
+// Tests Requirement N1
+// Short format classroom number and Student command
+// expected output: DURAND, CARLEE
+C: 101 S
+
+// TC-22
+// Tests Requirement N1
+// Long format classroom number and Student command
+// expected output: DURAND, CARLEE
+Classroom: 101 Student
+
+// TC-23
+// Tests Requirement N1
+// Short format classroom number and Teacher command
+// expected output: COOL, REUBEN
+C: 101 T
+
+// TC-24
+// Tests Requirement N1
+// Long format classroom number and Teacher command
+// expected output: COOL, REUBEN
+Classroom: 101 T
+
+// TC-25
+// Tests Requirement N2
+// Invalid classroom command syntax
+// expected output: 
+// Error: Invalid syntax
+// C[lassroom]: <classroom number> <S[tudent]|T[eacher]>
+C: 101 t
+
+// TC-26
+// Tests Requirement N2
+// Invalid classroom number 
+// expected output: <empty line>
+C: 9999 S
+
+// TC-27
+// Tests Requirement N3
+// Short format grade input and teacher output
+// expected output: FALKER, ADOLPH
+G: 1 T
+
+// TC-28
+// Tests Requirement N3
+// Long format grade input and teacher output
+// expected output: 
+// STEIB, GALE
+// HAMER, GAVIN
+Grade: 2 Teacher
+
+// TC-29
+// Tests Requirement N3
+// Invalid grade number, unassigned to teacher
+// expected output: <empty line>
+G: 8 T
+
+// TC-30
+// Tests Requirement N3
+// Valid grade number, invalid syntax
+// expected output: 
+// Error: Invalid syntax
+// G[rade]:  <number> [H[igh]|L[ow]|T[eachers]]
+G: 1 Y
+
+// TC-31
+// Tests Requirement N4
+// Short format enrollment command
+// expected output: 
+// 101: 1
+// 102: 5
+// 103: 2
+// 104: 2
+// 105: 6
+// 106: 2
+// 107: 7
+// 108: 11
+// 109: 5
+// 110: 2
+// 111: 9
+// 112: 8
+E
+
+// TC-32
+// Tests Requirement N4
+// Long format enrollment command
+// expected output: 
+// 101: 1
+// 102: 5
+// 103: 2
+// 104: 2
+// 105: 6
+// 106: 2
+// 107: 7
+// 108: 11
+// 109: 5
+// 110: 2
+// 111: 9
+// 112: 8
+Enrollment
+
+//TC-33
+// Tests Requirment N5
+// short relationship command, only below certain GPA
+// expected output: 
+// IMMERMAN, DEVIN,2.78
+// CIGANEK, MANIE,2.79
+// SARAO, DIEDRA,2.79
+// KRAKE, VALENTIN,2.78
+// KOZOLA, BUSTER,2.76
+// MASSART, ELDON,2.8
+R: 2.8
+
+//TC-34
+// Tests Requirment N5
+// long relationship command, only below certain GPA
+// expected output: 
+// IMMERMAN, DEVIN,2.78
+// CIGANEK, MANIE,2.79
+// SARAO, DIEDRA,2.79
+// KRAKE, VALENTIN,2.78
+// KOZOLA, BUSTER,2.76
+// MASSART, ELDON,2.8
+Relationship: 2.8
+
+//TC-35
+// Tests Requirments N5
+// short relationship commandbetween GPA and grade
+// expected output:
+// IMMERMAN, DEVIN,2.78: Grade 4
+// CIGANEK, MANIE,2.79: Grade 3
+// SARAO, DIEDRA,2.79: Grade 2
+// KRAKE, VALENTIN,2.78: Grade 6
+// KOZOLA, BUSTER,2.76: Grade 2
+// MASSART, ELDON,2.8: Grade 4
+R: 2.8 G
+
+//TC-36
+// Tests Requirments N5
+// long relationship commandbetween GPA and grade
+// expected output:
+// IMMERMAN, DEVIN,2.78: Grade 4
+// CIGANEK, MANIE,2.79: Grade 3
+// SARAO, DIEDRA,2.79: Grade 2
+// KRAKE, VALENTIN,2.78: Grade 6
+// KOZOLA, BUSTER,2.76: Grade 2
+// MASSART, ELDON,2.8: Grade 4
+Relationship: 2.8 Grade
+
+//TC-37
+// Tests Requirments N5
+// short relationship command between GPA and teacher
+// expected output: 
+// IMMERMAN, DEVIN,2.78: HANTZ, JED
+// CIGANEK, MANIE,2.79: FAFARD, ROCIO
+// SARAO, DIEDRA,2.79: HAMER, GAVIN
+// KRAKE, VALENTIN,2.78: GAMBREL, JAE
+// KOZOLA, BUSTER,2.76: HAMER, GAVIN
+// MASSART, ELDON,2.8: HANTZ, JED
+R: 2.8 T
+
+//TC-38
+// Tests Requirments N5
+// long relationship command between GPA and teacher
+// expected output: 
+// IMMERMAN, DEVIN,2.78: HANTZ, JED
+// CIGANEK, MANIE,2.79: FAFARD, ROCIO
+// SARAO, DIEDRA,2.79: HAMER, GAVIN
+// KRAKE, VALENTIN,2.78: GAMBREL, JAE
+// KOZOLA, BUSTER,2.76: HAMER, GAVIN
+// MASSART, ELDON,2.8: HANTZ, JED
+Relationship: 2.8 Teacher
+
+//TC-39
+// Tests Requirments N5
+// short relationship command between GPA and bus
+// expected output: 
+// IMMERMAN, DEVIN,2.78: 52
+// CIGANEK, MANIE,2.79: 53
+// SARAO, DIEDRA,2.79: 52
+// KRAKE, VALENTIN,2.78: 56
+// KOZOLA, BUSTER,2.76: 55
+// MASSART, ELDON,2.8: 0
+R: 2.8 B
+
+//TC-40
+// Tests Requirments N5
+// long relationship command between GPA and bus
+// expected output: 
+// IMMERMAN, DEVIN,2.78: 52
+// CIGANEK, MANIE,2.79: 53
+// SARAO, DIEDRA,2.79: 52
+// KRAKE, VALENTIN,2.78: 56
+// KOZOLA, BUSTER,2.76: 55
+// MASSART, ELDON,2.8: 0
+Relationship: 2.8 Bus
+
+//TC-41
+// Tests Requirments N5
 // short quit command
 // expected output: program terminates
 Q
 
-//TC-22
+//TC-42
 // Tests Requirments R3, R13
 // short quit command
 // expected output: program terminates

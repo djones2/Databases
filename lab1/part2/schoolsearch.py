@@ -131,6 +131,9 @@ def find_grade(command_line, students, teachers):
             low = True
         elif high_or_low[0] == "T":
             teach = True
+        else:
+            syntax_error("G[rade]:  <number> [H[igh]|L[ow]|T[eachers]]")
+            return
     else:
        for student in students:
           if int(command_line[1]) == student.studentGrade:
@@ -206,6 +209,9 @@ def find_classroom(command_line, students, teachers):
             stud = True
         elif stud_or_teach[0] == "T":
             teach = True
+        else:
+            syntax_error("C[lassroom]: <classroom number> <S[tudent]|T[eacher]>")
+            return
     else:
        syntax_error("C[lassroom]: <classroom number> <S[tudent]|T[eacher]>")
        return
@@ -244,18 +250,23 @@ def find_relationship(command_line, students, teachers):
     grade = False
     teach = False
     bus = False
-    if len(command_line) == 3:
-        if command_line[2][0] == "G":
-            grade = True
-        elif command_line[2][0] == "T":
-            teach = True
-        elif command_line[2][0] == "B":
-            bus = True
+    if len(command_line) >= 2:
+        if len(command_line) == 3:
+            if command_line[2][0] == "G":
+                grade = True
+            elif command_line[2][0] == "T":
+                teach = True
+            elif command_line[2][0] == "B":
+                bus = True
+        else:
+            for student in students:
+                if student.studentGPA <= float(command_line[1]):
+                    print(student.lastName + "," + student.firstName + "," + str(student.studentGPA))
+            return
     else:
-        for student in students:
-            if student.studentGPA <= float(command_line[1]):
-                print(student.lastName + "," + student.firstName + "," + str(student.studentGPA))
+        syntax_error("R[elationship]: <GPA number> [G[rade]|T[eacher]|B[us]]")
         return
+
     if grade == True:
         for student in students:
             if student.studentGPA <= float(command_line[1]):
