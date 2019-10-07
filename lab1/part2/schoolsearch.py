@@ -70,9 +70,12 @@ def print_help():
     print("S[tudent]:  <lastname> [B[us]]")
     print("T[eacher]:  <lastname>")
     print("B[us]:  <number>")
-    print("G[rade]:  <number> [H[igh]|L[ow]]")
+    print("G[rade]:  <number> [H[igh]|L[ow]|T[eachers]]")
     print("A[verage]:  <number>")
     print("I[nfo]")
+    print("C[lassroom]: <classroom number>  <S[tudent]|T[eacher]>")
+    print("E[nrollment]")
+    print("G[PA]: <number> [G|T|B]")
     print("Q[uit]")
 
 def find_teacher(command_line, students, teachers):
@@ -110,15 +113,24 @@ def find_student(command_line, students, teachers):
                 print(student.lastName + "," + student.firstName + "," + str(student.studentGrade) + "," + str(student.classroomNum) + "," + str(tLastName) + "," + str(tFirstName))  
     return
 
+def contains(list, value):
+    for n in list:
+       if n == value:
+          return True
+    return False
+
 def find_grade(command_line, students, teachers):
     low = False
     high = False
+    teach = False
     if len(command_line) == 3:
         high_or_low = command_line[2]
         if high_or_low[0] == "H":
             high = True
         elif high_or_low[0] == "L":
             low = True
+        elif high_or_low[0] == "T":
+            teach = True
     else:
        for student in students:
           if int(command_line[1]) == student.studentGrade:
@@ -137,7 +149,7 @@ def find_grade(command_line, students, teachers):
                     tLastName = teacher.lastName
                     tFirstName = teacher.firstName
             print(lowest_grade_student.lastName + "," + lowest_grade_student.firstName + "," + str(lowest_grade_student.studentGPA) + "," + tLastName + "," + tFirstName + "," + str(lowest_grade_student.busRouteNum))
-    else:
+    elif high:
        highest_grade = 0
        highest_grade_student = students[0]
        for student in students:
@@ -150,6 +162,15 @@ def find_grade(command_line, students, teachers):
                    tLastName = teacher.lastName
                    tFirstName = teacher.firstName
            print(highest_grade_student.lastName + "," + highest_grade_student.firstName + "," + str(highest_grade_student.studentGPA) + "," + str(tLastName) + "," + str(tFirstName) + "," + str(highest_grade_student.busRouteNum))
+    else:
+        t = []
+        for student in students:
+           if int(command_line[1]) == student.studentGrade:
+               for teacher in teachers:
+                  if teacher.classroomNum == student.classroomNum and not(contains(t, teacher)):
+                     t.append(teacher)
+        for n in t:
+           print(n.lastName +","+n.firstName)
     return
 
 def find_average(command_line, students):
@@ -176,6 +197,28 @@ def find_bus(command_line, students):
             print(student.lastName + "," + student.firstName + "," + str(student.studentGrade) + "," + str(student.classroomNum))
     return
 
+def find_classroom(command_line, students, teachers):
+    stud = False
+    teach = False
+    if len(command_line) == 3:
+        stud_or_teach= command_line[2]
+        if stud_or_teach[0] == "S":
+            stud = True
+        elif stud_or_teach[0] == "T":
+            teach = True
+    else:
+       syntax_error("C[lassroom]: <classroom number> <S|T>")
+       return
+    if stud:
+       for student in students:
+          if student.classroomNum == int(command_line[1]):
+             print(student.lastName + "," + student.firstName)
+    else:
+       for teacher in teachers:
+          if teacher.classroomNum == int(command_line[1]):
+             print(teacher.lastName + "," + teacher.firstName)
+
+
 def print_info(command_line, students):
     student_grades = [0 for n in range(0, 7)]
     for student in students:
@@ -184,6 +227,48 @@ def print_info(command_line, students):
         print(str(i) + ": " + str(student_grades[i]))
     return
 
+def find_enrollment(command_line, students, teachers):
+    classlist = []
+    for teacher in teachers:
+        if not(contains(classlist, teacher.classroomNum)):
+           classlist.append(teacher.classroomNum)
+    sorted(classlist)
+    for classroom in classlist:
+        count = 0
+        for student in students:
+            if student.classroomNum == classroom:
+                count +=1
+        print(str(classroom) + ": " + str(count))
+
+def find_gpa(command_line, students, teachers):
+    grade = False
+    teach = False
+    bus = False
+    if len(command_line == 3):
+        if command_line[2][0] == "G":
+            grade = True
+        elif command_line[2][0] == "T":
+            teach = True
+        elif command_line[2][0] == "B":
+            bus = True
+    else:
+        for student in students:
+            if student.studentGPA <= int(command_line[1]):
+                print(student.lastName + "," + student.firstName + "," + str(student.studentGPA))
+       return
+    if grade == True:
+        for student in students:
+            if student.studentGPA <= int(command_line[1]):
+                printf(student.lastName +"," + student.firstName + "," + str(student.studentGPA) + ": Grade " + student.grade)
+    elif teach == True:
+        for student in students:
+            if student.studentGPA <= int(command_line[1]):
+                for teacher in teachers:
+                    if teacher.classroomNum == student.classroomNum :
+                        tLastName = teacher.lastName
+                        tFirstName = teacher.firstName
+                        break
+                print(student.lastName + "," + student.firstName +"," + str(student.studentGPA) + ": " + tLastName + "," + tFirstName)
 # Command Functions
 
 def start(running, students, teachers):
@@ -211,8 +296,16 @@ def start(running, students, teachers):
     elif select[0] == "I":
         command = print_info(command_line, students)
         return command 
+    elif select[0] == "C":
+        command = find_classroom(command_line, students, teachers)
+        return command
+    elif select[0] == "E":
+        command = find_enrollment(command_line, students, teachers)
+        return command
+    elif select[0] == "G":
+        command = find_gpa(command_line, students, teachers)
+        return command
     elif select[0] == "Q":
-        #print("Goodbye")
         sys.exit(0)
     else:
         print_help()
