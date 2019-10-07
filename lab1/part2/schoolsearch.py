@@ -75,7 +75,7 @@ def print_help():
     print("I[nfo]")
     print("C[lassroom]: <classroom number>  <S[tudent]|T[eacher]>")
     print("E[nrollment]")
-    print("G[PA]: <number> [G|T|B]")
+    print("R[elationship]: <GPA number> [G[rade]|T[eacher]|B[us]]")
     print("Q[uit]")
 
 def find_teacher(command_line, students, teachers):
@@ -170,7 +170,7 @@ def find_grade(command_line, students, teachers):
                   if teacher.classroomNum == student.classroomNum and not(contains(t, teacher)):
                      t.append(teacher)
         for n in t:
-           print(n.lastName +","+n.firstName)
+           print(n.lastName +","+ n.firstName)
     return
 
 def find_average(command_line, students):
@@ -207,7 +207,7 @@ def find_classroom(command_line, students, teachers):
         elif stud_or_teach[0] == "T":
             teach = True
     else:
-       syntax_error("C[lassroom]: <classroom number> <S|T>")
+       syntax_error("C[lassroom]: <classroom number> <S[tudent]|T[eacher]>")
        return
     if stud:
        for student in students:
@@ -240,11 +240,11 @@ def find_enrollment(command_line, students, teachers):
                 count +=1
         print(str(classroom) + ": " + str(count))
 
-def find_gpa(command_line, students, teachers):
+def find_relationship(command_line, students, teachers):
     grade = False
     teach = False
     bus = False
-    if len(command_line == 3):
+    if len(command_line) == 3:
         if command_line[2][0] == "G":
             grade = True
         elif command_line[2][0] == "T":
@@ -253,22 +253,27 @@ def find_gpa(command_line, students, teachers):
             bus = True
     else:
         for student in students:
-            if student.studentGPA <= int(command_line[1]):
+            if student.studentGPA <= float(command_line[1]):
                 print(student.lastName + "," + student.firstName + "," + str(student.studentGPA))
-       return
+        return
     if grade == True:
         for student in students:
-            if student.studentGPA <= int(command_line[1]):
-                printf(student.lastName +"," + student.firstName + "," + str(student.studentGPA) + ": Grade " + student.grade)
+            if student.studentGPA <= float(command_line[1]):
+                print(student.lastName +"," + student.firstName + "," + str(student.studentGPA) + ": Grade " + str(student.studentGrade))
     elif teach == True:
         for student in students:
-            if student.studentGPA <= int(command_line[1]):
+            if student.studentGPA <= float(command_line[1]):
                 for teacher in teachers:
                     if teacher.classroomNum == student.classroomNum :
                         tLastName = teacher.lastName
                         tFirstName = teacher.firstName
                         break
                 print(student.lastName + "," + student.firstName +"," + str(student.studentGPA) + ": " + tLastName + "," + tFirstName)
+    elif bus == True:
+        for student in students:
+            if student.studentGPA <= float(command_line[1]):
+                print(student.lastName +"," + student.firstName + "," + str(student.studentGPA) + ": " + str(student.busRouteNum))
+
 # Command Functions
 
 def start(running, students, teachers):
@@ -302,8 +307,8 @@ def start(running, students, teachers):
     elif select[0] == "E":
         command = find_enrollment(command_line, students, teachers)
         return command
-    elif select[0] == "G":
-        command = find_gpa(command_line, students, teachers)
+    elif select[0] == "R":
+        command = find_relationship(command_line, students, teachers)
         return command
     elif select[0] == "Q":
         sys.exit(0)
