@@ -1,0 +1,156 @@
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Boston Celtics', 'Brandon Bass');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Boston Celtics', 'Paul Pierce');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Boston Celtics', 'Kevin Garnett');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Boston Celtics', 'Rajon Rondo');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Boston Celtics', 'Courtney Lee');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Boston Celtics', 'Jared Sullinger');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Boston Celtics', 'Jeff Green');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Boston Celtics', 'Jason Terry');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Boston Celtics', 'Leandro Barbosa');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Boston Celtics', 'Chris Wilcox');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Boston Celtics', 'Kris Joseph');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Boston Celtics', 'Jason Collins');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Boston Celtics', 'Darko Milicic');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Miami Heat', 'Shane Battier');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Miami Heat', 'LeBron James');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Miami Heat', 'Chris Bosh');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Miami Heat', 'Mario Chalmers');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Miami Heat', 'Dwyane Wade');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Miami Heat', 'Udonis Haslem');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Miami Heat', 'Rashard Lewis');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Miami Heat', 'Norris Cole');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Miami Heat', 'Ray Allen');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Miami Heat', 'Mike Miller');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Miami Heat', 'James Jones');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Miami Heat', 'Josh Harrellson');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277722, 'Miami Heat', 'Terrel Harris');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Milwaukee Bucks', 'Ersan Ilyasova');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Milwaukee Bucks', 'Tobias Harris');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Milwaukee Bucks', 'Samuel Dalembert');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Milwaukee Bucks', 'Monta Ellis');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Milwaukee Bucks', 'Brandon Jennings');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Milwaukee Bucks', 'Ekpe Udoh');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Milwaukee Bucks', 'Mike Dunleavy');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Milwaukee Bucks', 'Marquis Daniels');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Milwaukee Bucks', 'Larry Sanders');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Milwaukee Bucks', 'Beno Udrih');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Milwaukee Bucks', 'Doron Lamb');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Milwaukee Bucks', 'Drew Gooden');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Milwaukee Bucks', 'Joel Przybilla');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Boston Celtics', 'Brandon Bass');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Boston Celtics', 'Paul Pierce');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Boston Celtics', 'Kevin Garnett');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Boston Celtics', 'Rajon Rondo');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Boston Celtics', 'Courtney Lee');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Boston Celtics', 'Jared Sullinger');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Boston Celtics', 'Jeff Green');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Boston Celtics', 'Chris Wilcox');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Boston Celtics', 'Kris Joseph');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Boston Celtics', 'Darko Milicic');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Boston Celtics', 'Jason Terry');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Boston Celtics', 'Leandro Barbosa');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277737, 'Boston Celtics', 'Jason Collins');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Boston Celtics', 'Jared Sullinger');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Boston Celtics', 'Paul Pierce');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Boston Celtics', 'Kevin Garnett');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Boston Celtics', 'Rajon Rondo');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Boston Celtics', 'Courtney Lee');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Boston Celtics', 'Jeff Green');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Boston Celtics', 'Chris Wilcox');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Boston Celtics', 'Brandon Bass');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Boston Celtics', 'Jason Terry');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Boston Celtics', 'Leandro Barbosa');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Boston Celtics', 'Kris Joseph');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Boston Celtics', 'Jason Collins');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Boston Celtics', 'Darko Milicic');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Washington Wizards', 'Trevor Booker');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Washington Wizards', 'Trevor Ariza');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Washington Wizards', 'Emeka Okafor');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Washington Wizards', 'A.J. Price');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Washington Wizards', 'Bradley Beal');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Washington Wizards', 'Kevin Seraphin');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Washington Wizards', 'Cartier Martin');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Washington Wizards', 'Chris Singleton');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Washington Wizards', 'Jan Vesely');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Washington Wizards', 'Martell Webster');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Washington Wizards', 'Jannero Pargo');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Washington Wizards', 'Jordan Crawford');
+INSERT INTO PLAYERS (id, team, player) 
+    VALUES (400277747, 'Washington Wizards', 'Earl Barron');

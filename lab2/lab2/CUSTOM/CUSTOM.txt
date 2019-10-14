@@ -1,0 +1,12 @@
+a) Source of the data: https://github.com/hassoun/nba/tree/master/data
+
+b) I decided to create tables to organize the teams, games played, and players. The teams hold the most 
+unique values, while the other columns hold foreign keys related to each team. 
+
+c) The hardest part about mapping the data was organizing the foreign key constraints to ensure
+the tables were holding all available data with approppraite MySQL relationships. 
+
+d) Non-trivial questions:
+    i. How many home games did Al Horford play in?
+    ii. How does changing the data in the "team" table affect other tables?
+    iii. Is there another way for this data to be organized with less/more tables?

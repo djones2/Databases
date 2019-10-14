@@ -11,6 +11,13 @@ def main():
     with open('%s.csv' % csvName) as csvfile:
         readCSV = csv.reader(csvfile, delimiter=',')
         key = next(readCSV)
+        i = 0
+        for item in key:
+            temp = key[i]
+            temp = temp[1:-1]
+            key[i] = temp
+            i = i + 1
+        print(key)
         for row in readCSV:
             sqlFile.write("INSERT INTO %s (" % sqlName + ', '.join(key) + ") \n    VALUES (" + ', '.join(row) + ");\n")
 

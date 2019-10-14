@@ -11,12 +11,13 @@ def main():
     with open('%s.csv' % csvName) as csvfile:
         readCSV = csv.reader(csvfile, delimiter=',')
         key = next(readCSV)
-        if key[1]:
-                key[1] = "Date"
-        # print row[1]
         for row in readCSV:
+            if row[0]:
+                 row[0] = "'"+row[0]+"'"
             if row[1]:
-             row[1] = "STR_TO_DATE("+row[1]+", '%d-%M-%Y')"
+                row[1] = "'"+row[1]+"'"
+            if row[2]:
+                row[2] = "'"+row[2]+"'"
             sqlFile.write("INSERT INTO %s (" % sqlName + ', '.join(key) + ") \n    VALUES (" + ', '.join(row) + ");\n")
 
     sqlFile.close()

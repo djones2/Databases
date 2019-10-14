@@ -1,3 +1,5 @@
+drop table CUSTOMERS, GOODS, RECEIPTS, ITEMS;
+
 CREATE TABLE CUSTOMERS(
     Id INTEGER,
     LastName VARCHAR(100),
@@ -15,7 +17,7 @@ CREATE TABLE GOODS(
 
 CREATE TABLE RECEIPTS(
     ReceiptNumber INTEGER,
-    PurchaseDate DATE,
+    `Date` DATE,
     CustomerId INTEGER,
     PRIMARY KEY (ReceiptNumber),
     FOREIGN KEY (CustomerId) REFERENCES CUSTOMERS (Id)
@@ -25,6 +27,7 @@ CREATE TABLE ITEMS(
     Receipt INTEGER,
     Ordinal INTEGER,
     Item VARCHAR(30),
+    PRIMARY KEY (Receipt, Ordinal),
     FOREIGN KEY (Item) REFERENCES GOODS (Id),
     FOREIGN KEY (Receipt) REFERENCES RECEIPTS (ReceiptNumber)
 );

@@ -1,3 +1,5 @@
+drop table AIRLINES, AIRPORTS, FLIGHTS;
+
 CREATE TABLE AIRLINES(
 		  Id INTEGER,
 		  Airline VARCHAR(100),
@@ -20,8 +22,8 @@ CREATE TABLE FLIGHTS(
 		  FlightNo INTEGER,
 		  SourceAirport VARCHAR(10),
 		  DestAirport VARCHAR(10),
-		  PRIMARY KEY (FlightNo),
+		  PRIMARY KEY (Airline, FlightNo),
 		  FOREIGN KEY (SourceAirport) REFERENCES AIRPORTS (AirportCode),
 		  FOREIGN KEY (DestAirport) REFERENCES AIRPORTS (AirportCode),
-		  FOREIGN KEY (Airline) REFERENCES AIRLINES(ID)
+		  FOREIGN KEY (Airline) REFERENCES AIRLINES(Id)
 );
