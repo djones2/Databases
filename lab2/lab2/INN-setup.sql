@@ -1,4 +1,4 @@
-drop table ROOMS, RESERVATIONS;
+drop table RESERVATIONS, ROOMS;
 
 CREATE TABLE ROOMS(
     RoomId VARCHAR(5),
