@@ -1,4 +1,4 @@
-CREATE TABLE AIRLINES(
+CREATE TABLE 3nf_AIRLINES(
     Id INTEGER,
     Airline VARCHAR(100),
     Abbreviation VARCHAR(20),
@@ -6,23 +6,25 @@ CREATE TABLE AIRLINES(
     PRIMARY KEY (Id)
 );
 
-CREATE TABLE AIRPORTS(
+CREATE 3nf_COUNTRIES(
+    Country VARCHAR(50),
+    CountryAbbrev VARCHAR(10)
+)
+
+CREATE TABLE 3nf_AIRPORTS(
     City VARCHAR(50),
     AirportCode VARCHAR(10),
     AirportName VARCHAR(50),
-    Country VARCHAR(50),
-    CountryAbbrev VARCHAR(10),
     PRIMARY KEY (AirportCode)
 );
 
-CREATE TABLE FLIGHTS(
+CREATE TABLE 3nf_FLIGHTS(
     Airline INTEGER,
     FlightNo INTEGER,
     SourceAirport VARCHAR(10),
     DestAirport VARCHAR(10),
-    PRIMARY KEY (FlightNo),
+    PRIMARY KEY (Airline, FlightNo),
     FOREIGN KEY (SourceAirport) REFERENCES AIRPORTS (AirportCode),
     FOREIGN KEY (DestAirport) REFERENCES AIRPORTS (AirportCode),
-    FOREIGN KEY (Airline) REFERENCES AIRLINES (Id)
+    FOREIGN KEY (Airline) REFERENCES AIRLINES(Id)
 );
-
