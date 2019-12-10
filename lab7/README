@@ -1,1 +1,7 @@
-Databases Lab 7
+#Databases Lab 7
+
+# Setting up the shell:
+export CLASSPATH=$CLASSPATH:mysql-connector-java-8.0.16.jar:.
+export JDBC_URL=jdbc:mysql://db.labthreesixfive.com/wicker?autoReconnect=true\&useSSL=false
+export JDBC_USER=(your username)
+export JDBC_PW=(your password)
