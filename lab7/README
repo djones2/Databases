@@ -1,7 +1,30 @@
-#Databases Lab 7
+Daniel Jones, Amanda Krysl, Braden Wicker
 
-# Setting up the shell:
-export CLASSPATH=$CLASSPATH:mysql-connector-java-8.0.16.jar:.
+Databases Lab 7
+
+To run the program, enter the following to the command line:
+
+    java -cp mysql-connector-java-8.0.18/mysql-connector-java-8.0.18.jar:. InnReservations
+
+Make sure to include the following CLASSPATH: 
+
+    export CLASSPATH=$CLASSPATH:mysql-connector-java-8.0.16.jar:.
+
+Environment variables:
 export JDBC_URL=jdbc:mysql://db.labthreesixfive.com/wicker?autoReconnect=true\&useSSL=false
 export JDBC_USER=(your username)
 export JDBC_PW=(your password)
+
+Instructions:
+
+FR-1: Enter "Room" at the command prompt.
+
+FR-2: Enter "Book" at the command prompt.
+
+FR-3: Enter "Edit" at the command prompt.
+
+FR-4: Enter "Cancel" at the command prompt.
+
+FR-5: Enter "Details" at the command prompt.
+
+FR-6: Enter "Revenue" at the command prompt.
