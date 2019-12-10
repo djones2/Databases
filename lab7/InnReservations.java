@@ -65,7 +65,12 @@ public class InnReservations {
     public static void reservationsChange(Connection connect) {
         PreparedStatement prep_statement = null;
         try {
-            String query = "";
+            //change these values to what the user enters
+            String query = "update lab7_reservations 
+                set LastName = 'newLastName', FirstName = 'newFirstName',
+                    CheckIn = '2019-01-01', CheckOut = '2019-01-02',
+                        Adults = 0, Kids = 0
+                        where Code = 10105;";
             prep_statement = connect.prepareStatement(query);
             ResultSet results = prep_statement.executeQuery();
             // System.out.format()
@@ -78,7 +83,8 @@ public class InnReservations {
     public static void reservationCancellation() {
         PreparedStatement prep_statement = null;
         try {
-            String query = "";
+            //change code value to code that user entered
+            String query = "delete from lab7_reservations where CODE = 10183;";
             prep_statement = connect.prepareStatement(query);
             ResultSet results = prep_statement.executeQuery();
             // System.out.format()
