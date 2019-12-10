@@ -34,11 +34,12 @@ public class InnReservations {
                                             RANK() OVER (PARTITION BY Room
                                                         ORDER BY CheckOut DESC) AS NextAvailRank, length
                                                             FROM stayLengths)
-                                SELECT popularities.Room, popScore, Checkout AS nextAvail, length 
+                                SELECT r.RoomCode, r.RoomName, r.Beds, r.BedType, r.maxOcc, r.basePrice, r.decor, popularities.Room, popScore, Checkout AS nextAvail, length 
                                 from popularities
                                     join mostRecent on popularities.Room = mostRecent.Room
-                                    WHERE NextAvailRank = 1
-                                    Order by popScore DESC;";
+                                        join lab7_rooms r on popularities.Room = r.RoomCode
+                                        WHERE NextAvailRank = 1
+                                        Order by popScore DESC;";
             prep_statement = connect.prepareStatement(query);
             ResultSet results = prep_statement.executeQuery();
             // System.out.format()
