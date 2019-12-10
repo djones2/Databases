@@ -21,7 +21,24 @@ public class InnReservations {
     public static void roomsAndRates(Connection connect) {
         PreparedStatement prep_statement = null;
         try {
-            String query = "";
+            String query = "WITH stayLengths AS (
+            select Room, Code, CheckIn, Checkout, DATEDIFF(Checkout, CheckIn) as length
+                from lab7_reservations 
+                    group by Code
+                    ), popularities AS (
+                        SELECT Room, ROUND(SUM(length)/180,2) AS popScore
+                            FROM stayLengths
+                                GROUP BY Room
+                                ), mostRecent AS (
+                                    SELECT Room, Code, Checkout,
+                                            RANK() OVER (PARTITION BY Room
+                                                        ORDER BY CheckOut DESC) AS NextAvailRank, length
+                                                            FROM stayLengths)
+                                SELECT popularities.Room, popScore, Checkout AS nextAvail, length 
+                                from popularities
+                                    join mostRecent on popularities.Room = mostRecent.Room
+                                    WHERE NextAvailRank = 1
+                                    Order by popScore DESC;";
             prep_statement = connect.prepareStatement(query);
             ResultSet results = prep_statement.executeQuery();
             // System.out.format()
