@@ -21,25 +21,7 @@ public class InnReservations {
     public static void roomsAndRates(Connection connect) {
         PreparedStatement prep_statement = null;
         try {
-            String query = "WITH stayLengths AS (
-            select Room, Code, CheckIn, Checkout, DATEDIFF(Checkout, CheckIn) as length
-                from lab7_reservations 
-                    group by Code
-                    ), popularities AS (
-                        SELECT Room, ROUND(SUM(length)/180,2) AS popScore
-                            FROM stayLengths
-                                GROUP BY Room
-                                ), mostRecent AS (
-                                    SELECT Room, Code, Checkout,
-                                            RANK() OVER (PARTITION BY Room
-                                                        ORDER BY CheckOut DESC) AS NextAvailRank, length
-                                                            FROM stayLengths)
-                                SELECT r.RoomCode, r.RoomName, r.Beds, r.BedType, r.maxOcc, r.basePrice, r.decor, popularities.Room, popScore, Checkout AS nextAvail, length 
-                                from popularities
-                                    join mostRecent on popularities.Room = mostRecent.Room
-                                        join lab7_rooms r on popularities.Room = r.RoomCode
-                                        WHERE NextAvailRank = 1
-                                        Order by popScore DESC;";
+            String query = "WITH stayLengths AS (select Room, Code, CheckIn, Checkout, DATEDIFF(Checkout, CheckIn) as length from lab7_reservations group by Code), popularities AS (SELECT Room, ROUND(SUM(length)/180,2) AS popScore FROM stayLengths GROUP BY Room), mostRecent AS (SELECT Room, Code, Checkout, RANK() OVER (PARTITION BY Room ORDER BY CheckOut DESC) AS NextAvailRank, length FROM stayLengths) SELECT r.RoomCode, r.RoomName, r.Beds, r.BedType, r.maxOcc, r.basePrice, r.decor, popularities.Room, popScore, Checkout AS nextAvail, length from popularities join mostRecent on popularities.Room = mostRecent.Room join lab7_rooms r on popularities.Room = r.RoomCode WHERE NextAvailRank = 1 Order by popScore DESC ";
             prep_statement = connect.prepareStatement(query);
             ResultSet results = prep_statement.executeQuery();
             // System.out.format()
@@ -65,12 +47,22 @@ public class InnReservations {
     public static void reservationsChange(Connection connect) {
         PreparedStatement prep_statement = null;
         try {
-            //change these values to what the user enters
-            String query = "update lab7_reservations 
-                set LastName = 'newLastName', FirstName = 'newFirstName',
-                    CheckIn = '2019-01-01', CheckOut = '2019-01-02',
-                        Adults = 0, Kids = 0
-                        where Code = 10105;";
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Reservation code: ");
+            String code = scanner.nextLine();
+            System.out.print("First Name: ");
+            String firstName = scanner.nextLine();
+            System.out.print("Last Name: ");
+            String lastName = scanner.nextLine();
+            System.out.print("Begin Date: ");
+            String beginDate = scanner.nextLine();
+            System.out.print("End Date: ");
+            String endDate = scanner.nextLine();
+            System.out.print("Number of children: ");
+            String numKids = scanner.nextLine();
+            System.out.print("Number of adults: ");
+            String numAdults = scanner.nextLine();
+            String query = "update lab7_reservations set LastName = " + lastName +", FirstName = " + firstName + ",CheckIn = " + beginDate + ", CheckOut = " + endDate + ",Adults = " + numAdults + ", Kids = " + numKids + "where Code = " + code;
             prep_statement = connect.prepareStatement(query);
             ResultSet results = prep_statement.executeQuery();
             // System.out.format()
@@ -80,11 +72,13 @@ public class InnReservations {
     }
 
     /* FR-4: Allow a user to cancel a reservation. */
-    public static void reservationCancellation() {
+    public static void reservationCancellation(Connection connect) {
         PreparedStatement prep_statement = null;
         try {
-            //change code value to code that user entered
-            String query = "delete from lab7_reservations where CODE = 10183;";
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Reservation Code: ");
+            String code = scanner.nextLine();
+            String query = "delete from lab7_reservations where CODE = " + code;
             prep_statement = connect.prepareStatement(query);
             ResultSet results = prep_statement.executeQuery();
             // System.out.format()
@@ -121,19 +115,20 @@ public class InnReservations {
 
     /* See the menu option. */
     public static void printMenu(Connection connect) {
-        println("Enter any of the options below (check spelling, non-case sensitive):");
-        println("   - Room");
-        println("   - Book");
-        println("   - Edit");
-        println("   - Cancel");
-        println("   - Details");
-        println("   - Revenue");
+        System.out.println("Enter any of the options below (check spelling, non-case sensitive):");
+        System.out.println("   - Room");
+        System.out.println("   - Book");
+        System.out.println("   - Edit");
+        System.out.println("   - Cancel");
+        System.out.println("   - Details");
+        System.out.println("   - Revenue");
     }
 
     /* Display a menu for user. */
     public static void mainMenu(Connection connect) {
-        Scanner option = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         System.out.print("Please enter an option: ");
+        String option = scanner.nextLine();
         if (option.equalsIgnoreCase("Room")) {
             roomsAndRates(connect);
             return;
@@ -162,7 +157,7 @@ public class InnReservations {
     }
 
     /* Main program */
-    public static void main() {
+    public static void main(String[] args) {
         Connection connect = null;
         String url = System.getenv("JDBC_URL");
         String un = System.getenv("JDBC_USER");
