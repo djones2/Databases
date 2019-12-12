@@ -4,7 +4,7 @@ Databases Lab 7
 
 To run the program, enter the following to set up the environment variables:
 
-    export JDBC_URL=jdbc:mysql://db.labthreesixfive.com/wicker?autoReconnect=true\&useSSL=false
+    export JDBC_URL=jdbc:mysql://db.labthreesixfive.com/your_username?autoReconnect=true\&useSSL=false
     export JDBC_USER=(your username)
     export JDBC_PW=(your password)
 
