@@ -86,7 +86,7 @@ public class InnReservations {
                //do similarity queries-- suggest 5 possibilities for different rooms or dates
                query = "";
                prep_statement = connect.prepareStatement(query);
-               ResultSet results = prep_statement.executeQuery();
+               results = prep_statement.executeQuery();
             }
             // System.out.format()
         } catch (Exception e) {
