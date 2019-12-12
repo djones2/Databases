@@ -220,6 +220,7 @@ public class InnReservations {
             }
         } catch (Exception ex) {
             System.out.println("Connection error. Please check your environment variables and try again.");
+            System.out.println(ex);
         }
     }
 }
