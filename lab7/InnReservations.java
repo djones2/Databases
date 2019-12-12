@@ -19,12 +19,30 @@ import java.util.HashMap;
 public class InnReservations {
     /* FR-1: Output a list of rooms to the user sorted by popularity. */
     public static void roomsAndRates(Connection connect) {
-        PreparedStatement prep_statement = null;
-        try {
-            String query = "WITH stayLengths AS (select Room, Code, CheckIn, Checkout, DATEDIFF(Checkout, CheckIn) as length from lab7_reservations group by Code), popularities AS (SELECT Room, ROUND(SUM(length)/180,2) AS popScore FROM stayLengths GROUP BY Room), mostRecent AS (SELECT Room, Code, Checkout, RANK() OVER (PARTITION BY Room ORDER BY CheckOut DESC) AS NextAvailRank, length FROM stayLengths) SELECT r.RoomCode, r.RoomName, r.Beds, r.BedType, r.maxOcc, r.basePrice, r.decor, popularities.Room, popScore, Checkout AS nextAvail, length from popularities join mostRecent on popularities.Room = mostRecent.Room join lab7_rooms r on popularities.Room = r.RoomCode WHERE NextAvailRank = 1 Order by popScore DESC ";
-            prep_statement = connect.prepareStatement(query);
+        String query = "WITH stayLengths AS (select Room, Code, CheckIn, Checkout, DATEDIFF(Checkout, CheckIn) as length from lab7_reservations group by Code), "
+            + "popularities AS (SELECT Room, ROUND(SUM(length)/180,2) AS popScore FROM stayLengths GROUP BY Room), "
+            + "mostRecent AS (SELECT Room, Code, Checkout, RANK() OVER (PARTITION BY Room ORDER BY CheckOut DESC) AS NextAvailRank, length FROM stayLengths) "
+            + "SELECT r.RoomCode, r.RoomName, r.Beds, r.BedType, r.maxOcc, r.basePrice, r.decor, popularities.Room, popScore, Checkout AS nextAvail, length from popularities join mostRecent on popularities.Room = mostRecent.Room join lab7_rooms r on popularities.Room = r.RoomCode WHERE NextAvailRank = 1 Order by popScore DESC ";
+        try (PreparedStatement prep_statement = connect.prepareStatement(query)) {
             ResultSet results = prep_statement.executeQuery();
-            // System.out.format()
+            System.out.format("%-8s %-25s %-8s %-8s %-12s %-10s %-12s %-9s %-14s %-18s\n",
+                    "roomCode", "roomName", "numBeds", "bedType", "maxOccupancy",
+                    "basePrice", "decor", "popScore", "nextAvailable", "mostRecentyStayLength");
+            while (results.next()) {
+                String roomCode = results.getString("r.RoomCode");
+                String roomName = results.getString("r.RoomName");
+                int numBeds = results.getInt("r.Beds");
+                String bedType = results.getString("r.BedType");
+                int maxOccupancy = results.getInt("r.maxOcc");
+                int basePrice = results.getInt("r.basePrice");
+                String decor = results.getString("r.decor");
+                float popScore = results.getFloat("popScore");
+                String nextAvailable = results.getString("nextAvail");
+                int mostRecentStayLength = results.getInt("length");
+                System.out.format("%-8s %-25s %-8d %-8s %-12d %-10d %-12s %-9f %-14s %-18d\n",
+                        roomCode, roomName, numBeds, bedType, maxOccupancy,
+                        basePrice, decor, popScore, nextAvailable, mostRecentStayLength);
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -206,12 +224,10 @@ public class InnReservations {
 
     /* Main program */
     public static void main(String[] args) {
-        Connection connect = null;
         String url = System.getenv("JDBC_URL");
         String un = System.getenv("JDBC_USER");
         String ps = System.getenv("JDBC_PW");
-        try {
-            connect = DriverManager.getConnection(url, un, ps);
+        try (Connection connect = DriverManager.getConnection(url, un, ps)) {
             while (true) {
                 mainMenu(connect);
             }
