@@ -102,6 +102,9 @@ public class InnReservations {
             if (numResults == 0)
             {
                //do similarity queries-- suggest 5 possibilities for different rooms or dates
+               query = "";
+               prep_statement = connect.prepareStatement(query);
+               results = prep_statement.executeQuery();
             }
             // System.out.format()
         } catch (Exception e) {
