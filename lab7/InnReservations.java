@@ -52,24 +52,39 @@ public class InnReservations {
             System.out.print("Number of adults: ");
             int numAdults = scanner.nextInt();
             String query = "";
+            if(numAdults + numKids > 5)
+            {
+               System.out.println("No suitable rooms are available");
+               return;
+            }
             if(roomCode.equals("Any") && !(bed.equals("Any")))
             {
-               query = "with roomsAvail as (select distinct Room from lab7_reservations where Room NOT IN (select Room from lab7_reservations where CheckIn <= '" + endDate + "' and Checkout >= '" + beginDate + "')), numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + (numAdults+numKids)+")), typeBed as (select RoomCode from lab7_rooms where bedType = '" + bed + "') select roomsAvail.Room from roomsAvail join numGuests on roomsAvail.Room = numGuests.RoomCode join typeBed on roomsAvail.Room = typeBed.RoomCode;";
+               query = "with roomsAvail as (select distinct Room from lab7_reservations where Room NOT IN (select Room from lab7_reservations where CheckIn <= '" + endDate + "' and Checkout >= '" + beginDate + "')), numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + (numAdults+numKids)+")), typeBed as (select RoomCode from lab7_rooms where bedType = '" + bed + "') select RANK() OVER (PARTITION BY roomsAvail.Room) as num, roomsAvail.Room as room from roomsAvail join numGuests on roomsAvail.Room = numGuests.RoomCode join typeBed on roomsAvail.Room = typeBed.RoomCode;";
             }
             else if(roomCode.equals("Any") && bed.equals("Any"))
             {
-               query = "with roomsAvail as (select distinct Room from lab7_reservations where Room NOT IN (select Room from lab7_reservations where CheckIn <= '" + endDate +"' and Checkout >= '" + beginDate + "')), numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + (numAdults+numKids) + ")) select roomsAvail.Room from roomsAvail join numGuests on roomsAvail.Room = numGuests.RoomCode";
+               query = "with roomsAvail as (select distinct Room from lab7_reservations where Room NOT IN (select Room from lab7_reservations where CheckIn <= '" + endDate +"' and Checkout >= '" + beginDate + "')), numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + (numAdults+numKids) + ")) select RANK() OVER (PARTITION BY roomsAvail.Room) as num, roomsAvail.Room from roomsAvail as room join numGuests on roomsAvail.Room = numGuests.RoomCode";
             }
             else if(!(roomCode.equals("Any")) && bed.equals("Any"))
             {
-               query = "with numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + (numKids+numAdults)+")) select lab7_rooms.RoomCode from lab7_rooms join numGuests on lab7_rooms.RoomCode = numGuests.RoomCode where lab7_rooms.RoomCode = '" + roomCode + "' and lab7_rooms.RoomCode NOT IN (select Room from lab7_reservations where CheckIn <= '" + endDate + "' and CheckOut >= '" + beginDate + "')";
+               query = "with numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + (numKids+numAdults)+")) select RANK() OVER (PARTITION BY lab7_rooms.RoomCode) as num, lab7_rooms.RoomCode as room from lab7_rooms join numGuests on lab7_rooms.RoomCode = numGuests.RoomCode where lab7_rooms.RoomCode = '" + roomCode + "' and lab7_rooms.RoomCode NOT IN (select Room from lab7_reservations where CheckIn <= '" + endDate + "' and CheckOut >= '" + beginDate + "')";
             }
             else if(!(roomCode.equals("Any")) && !(bed.equals("Any")))
             {
-               query = "with numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + numKids+numAdults +")) select lab7_rooms.RoomCode from lab7_rooms join numGuests on lab7_rooms.RoomCode = numGuests.RoomCode where lab7_rooms.RoomCode = '"+ roomCode + "' and lab7_rooms.bedType = '" + bed + "' and lab7_rooms.RoomCode NOT IN (select Room from lab7_reservations where CheckIn <= '" + endDate+ "' and CheckOut >= '" + beginDate + "')";
+               query = "with numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + numKids+numAdults +")) select RANK() OVER (PARTITION BY lab7_rooms.RoomCode) as num, lab7_rooms.RoomCode as room from lab7_rooms join numGuests on lab7_rooms.RoomCode = numGuests.RoomCode where lab7_rooms.RoomCode = '"+ roomCode + "' and lab7_rooms.bedType = '" + bed + "' and lab7_rooms.RoomCode NOT IN (select Room from lab7_reservations where CheckIn <= '" + endDate+ "' and CheckOut >= '" + beginDate + "')";
             }
             prep_statement = connect.prepareStatement(query);
             ResultSet results = prep_statement.executeQuery();
+            int numResults = 0;
+            while(results.next())
+            {
+               System.out.format("%n: %s\n", results.getString("num"), results.getString("room"));
+               numResults++;
+            }
+            if (numResults == 0)
+            {
+               //do similarity queries-- suggest 5 possibilities for different rooms or dates
+            }
             // System.out.format()
         } catch (Exception e) {
             System.out.println(e);
