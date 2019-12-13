@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.Date;
 
 public class InnReservations {
+    public static int numMonths = 12;
+
     /* FR-1: Output a list of rooms to the user sorted by popularity. */
     public static void roomsAndRates(Connection connect) {
         String query = "WITH stayLengths AS (select Room, Code, CheckIn, Checkout, DATEDIFF(Checkout, CheckIn) as length from lab7_reservations group by Code), "
@@ -211,7 +213,7 @@ public class InnReservations {
     }
 
     /* FR-3: Allow a user to make changes to a current reservation. */
-    public static void reservationsChange(Connection connect) {
+    public static void reservationChange(Connection connect) {
 
         try {
             Scanner scanner = new Scanner(System.in);
@@ -303,7 +305,7 @@ public class InnReservations {
     }
 
     /* FR-5: Allow a user to see specific details about a reservation. */
-    public static void detailedReservaion(Connection connect) {
+    public static void detailedReservation(Connection connect) {
         PreparedStatement prep_statement = null;
         try {
             String query = "";
@@ -317,12 +319,57 @@ public class InnReservations {
 
     /* FR-6: See a month-by-month revenue of the entire year. */
     public static void revenue(Connection connect) {
-        PreparedStatement prep_statement = null;
+        String query = "WITH resTotals AS ( " 
+            + "SELECT room, checkin, (CASE " 
+            + "WHEN MONTH(checkin) = MONTH(checkout) THEN (DATEDIFF(checkout,checkin))*rate "
+            + "WHEN MONTH(checkin) < MONTH(checkout) THEN (DATEDIFF(LAST_DAY(checkin),checkin)+1)*rate "
+            + "ELSE (DATEDIFF(checkout, (DATE_ADD(DATE_ADD(LAST_DAY(checkout),INTERVAL 1 DAY), INTERVAL - 1 MONTH))))*rate END) AS revenue "
+            + "FROM lab7_reservations WHERE YEAR(checkin) = 2019)"
+            + "SELECT room, ROUND(SUM(revenue),0) AS revenue "
+            + "FROM resTotals WHERE MONTH(checkin) = ? "
+            + "GROUP BY room";
         try {
-            String query = "";
-            prep_statement = connect.prepareStatement(query);
-            ResultSet results = prep_statement.executeQuery();
-            // System.out.format()
+            ResultSet[] monthResults = new ResultSet[numMonths];
+            int[] monthlyTotalSums = new int[numMonths+1];
+
+            for (int i = 0; i < numMonths; ++i) {
+                PreparedStatement month_prep = connect.prepareStatement(query);
+                month_prep.setInt(1, i+1);
+                monthResults[i] = month_prep.executeQuery();
+            }
+            
+            System.out.format("%-5s %-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s\n",
+                    "Room", "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December",
+                    "Total");
+
+            do {
+                for (int i = 0; i < numMonths; ++i) {
+                    monthResults[i].next();
+                }
+
+                String room = monthResults[0].getString("room"); 
+                int yearlyTotal = 0;
+                int monthlyTotal;
+
+                System.out.format("%-5s ", room);
+                for (int i = 0; i < numMonths; ++i) {
+                    monthlyTotal = monthResults[i].getInt("revenue");
+                    monthlyTotalSums[i] += monthlyTotal;
+                    yearlyTotal += monthlyTotal;
+                    System.out.format("%-10d", monthlyTotal);
+                }
+                monthlyTotalSums[numMonths] += yearlyTotal;
+                System.out.format("%-10d", yearlyTotal);
+                System.out.println();
+            } while (!monthResults[0].isLast());
+            
+            System.out.format("%-5s ", "Total");
+            for (int i = 0; i < numMonths+1; ++i) {
+                System.out.format("%-10d", monthlyTotalSums[i]);
+            }
+            System.out.println();
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -351,16 +398,16 @@ public class InnReservations {
             reservations(connect);
             return;
         } else if (option.equalsIgnoreCase("Edit")) {
-            reservationsChange(connect);
+            reservationChange(connect);
             return;
         } else if (option.equalsIgnoreCase("Cancel")) {
-            roomsAndRates(connect);
+            reservationCancellation(connect);
             return;
         } else if (option.equalsIgnoreCase("Details")) {
-            roomsAndRates(connect);
+            detailedReservation(connect);
             return;
         } else if (option.equalsIgnoreCase("Revenue")) {
-            roomsAndRates(connect);
+            revenue(connect);
             return;
         } else if (option.equalsIgnoreCase("Help")) {
             printMenu(connect);
