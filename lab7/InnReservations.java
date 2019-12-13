@@ -38,7 +38,7 @@ public class InnReservations {
                 int maxOccupancy = results.getInt("r.maxOcc");
                 int basePrice = results.getInt("r.basePrice");
                 String decor = results.getString("r.decor");
-                float popScore = results.getFloat("popScore");
+                double popScore = results.getDouble("popScore");
                 String nextAvailable = results.getString("nextAvail");
                 int mostRecentStayLength = results.getInt("length");
                 System.out.format("%-8s %-25s %-8d %-8s %-12d %-10d %-12s %-9f %-14s %-18d\n", roomCode, roomName,
@@ -267,7 +267,7 @@ public class InnReservations {
             String numAdults = scanner.nextLine();
 
             int codeNum = Integer.parseInt(code);
-            scanner.close();
+            //scanner.close();
             if (!firstName.equals("")) {
                 PreparedStatement prep_statement = connect
                         .prepareStatement("UPDATE lab7_reservations SET firstname = ? WHERE Code = ?");
@@ -704,7 +704,7 @@ public class InnReservations {
         printMenu(connect);
         System.out.print("Please enter an option: ");
         String option = scanner.nextLine();
-        scanner.close();
+        //scanner.close();
         if (option.equalsIgnoreCase("Room")) {
             roomsAndRates(connect);
             return;
@@ -743,7 +743,9 @@ public class InnReservations {
         String url = System.getenv("JDBC_URL");
         String un = System.getenv("JDBC_USER");
         String ps = System.getenv("JDBC_PW");
-        try (Connection connect = DriverManager.getConnection(url, un, ps)) {
+        Connection connect = null;
+        try {
+            connect = DriverManager.getConnection(url, un, ps); 
             while (true) {
                 mainMenu(connect);
             }
