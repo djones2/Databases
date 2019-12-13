@@ -38,7 +38,7 @@ public class InnReservations {
                 int maxOccupancy = results.getInt("r.maxOcc");
                 int basePrice = results.getInt("r.basePrice");
                 String decor = results.getString("r.decor");
-                float popScore = results.getFloat("popScore");
+                double popScore = results.getDouble("popScore");
                 String nextAvailable = results.getString("nextAvail");
                 int mostRecentStayLength = results.getInt("length");
                 System.out.format("%-8s %-25s %-8d %-8s %-12d %-10d %-12s %-9f %-14s %-18d\n", roomCode, roomName,
@@ -123,7 +123,6 @@ public class InnReservations {
                 found = true;
                 String roomOption = rs.getString("roomOption");
                 roomCode = rs.getString("RoomCode");
-                ;
                 String roomName = rs.getString("RoomName");
                 int beds = rs.getInt("Beds");
                 bedType = rs.getString("bedType");
@@ -690,13 +689,13 @@ public class InnReservations {
     /* See the menu option. */
     public static void printMenu(Connection connect) {
         System.out.println("Enter any of the options below (check spelling, non-case sensitive):");
-        System.out.println("   - Room");
-        System.out.println("   - Book");
-        System.out.println("   - Edit");
-        System.out.println("   - Cancel");
-        System.out.println("   - Details");
-        System.out.println("   - Revenue");
-        System.out.println("   - Quit");
+        System.out.println("   - ROOM: View rooms and their popularity amongst our guests.");
+        System.out.println("   - BOOK: Our favorite!");
+        System.out.println("   - EDIT: Change an aspect of your current reservation.");
+        System.out.println("   - CANCEL: We hate to see you go.");
+        System.out.println("   - DETAILS: Find out more about your reservation.");
+        System.out.println("   - REVENUE: See how we're doing.");
+        System.out.println("   - QUIT: Hope you got what you need!");
 
     }
 
@@ -746,7 +745,9 @@ public class InnReservations {
         String url = System.getenv("JDBC_URL");
         String un = System.getenv("JDBC_USER");
         String ps = System.getenv("JDBC_PW");
-        try (Connection connect = DriverManager.getConnection(url, un, ps)) {
+        Connection connect = null;
+        try {
+            connect = DriverManager.getConnection(url, un, ps); 
             while (true) {
                 mainMenu(connect);
             }
