@@ -8,6 +8,9 @@ import java.sql.PreparedStatement;
 
 import java.util.Map;
 import java.util.Scanner;
+
+//import jdk.nashorn.internal.runtime.regexp.joni.ScanEnvironment;
+
 import java.util.LinkedHashMap;
 import java.time.LocalDate;
 import java.util.List;
@@ -266,13 +269,13 @@ public class InnReservations {
     }
 
     /* FR-4: Allow a user to cancel a reservation. */
-    public static void reservationCancellation(Connection connect) {
+    public static void reservationCancellation(Connection connect, Scanner input) {
         PreparedStatement pstmt = null;
         try {
             System.out.print("Reservation Code: ");
             String userInput = input.nextLine();
             int resNum = Integer.parseInt(userInput);
-            pstmt = conn.prepareStatement("select * from lab7_reservations where CODE = ?");
+            pstmt = connect.prepareStatement("select * from lab7_reservations where CODE = ?");
             pstmt.setString(1, Integer.toString(resNum));
             ResultSet rs = pstmt.executeQuery();
             int count = 0;
@@ -300,7 +303,7 @@ public class InnReservations {
             userInput = input.nextLine();
             switch (userInput) {
             case "y":
-                pstmt = conn.prepareStatement("delete from lab7_reservations where CODE = ?");
+                pstmt = connect.prepareStatement("delete from lab7_reservations where CODE = ?");
                 pstmt.setString(1, Integer.toString(resNum));
                 pstmt.executeUpdate();
                 System.out.println("Cancellation Confirmed");
@@ -314,7 +317,8 @@ public class InnReservations {
     }
 
     /* FR-5: Allow a user to see specific details about a reservation. */
-    public static void detailedReservaion(Connection connect) {
+    public static void detailedReservaion(Connection connect, Scanner input) {
+        PreparedStatement pstmt = null;
         try {
             int firstWhere = 0;
             System.out.println(
@@ -401,7 +405,7 @@ public class InnReservations {
                 edFound = true;
             }
             String query = "select * from lab7_reservations " + whereClause + ";";
-            pstmt = conn.prepareStatement(query);
+            pstmt = connect.prepareStatement(query);
             int setCount = 1;
             if (fnFound) {
                 pstmt.setString(setCount, FirstName + "%");
@@ -650,26 +654,26 @@ public class InnReservations {
             roomsAndRates(connect);
             return;
         } else if (option.equalsIgnoreCase("Book")) {
-            roomsAndRates(connect);
+            reservations(connect);
             return;
         } else if (option.equalsIgnoreCase("Edit")) {
-            roomsAndRates(connect);
+            reservationsChange(connect);
             return;
         } else if (option.equalsIgnoreCase("Cancel")) {
-            roomsAndRates(connect);
+            reservationCancellation(connect, scanner);
             return;
         } else if (option.equalsIgnoreCase("Details")) {
-            roomsAndRates(connect);
+            detailedReservaion(connect, scanner);
             return;
         } else if (option.equalsIgnoreCase("Revenue")) {
-            roomsAndRates(connect);
+            revenue(connect);
             return;
         } else if (option.equalsIgnoreCase("Help")) {
             printMenu(connect);
             return;
-        } else if (option.equalsIgnoreCase("Quit")) {
+        } else if (exit) {
             System.out.println("Thank you!");
-            exit(1);
+            System.exit(1);
         } else {
             System.out.println("Option not available. Please enter again.");
             return;
