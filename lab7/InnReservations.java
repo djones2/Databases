@@ -726,6 +726,9 @@ public class InnReservations {
         } else if (option.equalsIgnoreCase("Help")) {
             printMenu(connect);
             return;
+        } else if (option.equalsIgnoreCase("Quit")) {
+            System.out.println("Thank you!");
+            System.exit(0);
         } else if (exit) {
             System.out.println("Thank you!");
             System.exit(1);
