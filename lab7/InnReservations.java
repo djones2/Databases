@@ -5,12 +5,8 @@ import java.sql.Driver;
 import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-
 import java.util.Map;
 import java.util.Scanner;
-
-//import jdk.nashorn.internal.runtime.regexp.joni.ScanEnvironment;
-
 import java.util.LinkedHashMap;
 import java.time.LocalDate;
 import java.util.List;
@@ -55,139 +51,197 @@ public class InnReservations {
     }
 
     /* FR-2: Allow a user to book a room. */
-    public static void reservations(Connection connect) {
+    public static void reservations(Connection connect, Scanner input) {
         PreparedStatement prep_statement = null;
         try {
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("First Name: ");
-            String firstName = scanner.nextLine();
-            System.out.print("Last Name: ");
-            String lastName = scanner.nextLine();
-            System.out.print("Desired Room Code: ");
-            String roomCode = scanner.nextLine();
-            System.out.print("Desired bed type: ");
-            String bed = scanner.nextLine();
-            System.out.print("Begin Date: ");
-            String beginDate = scanner.nextLine();
-            System.out.print("End Date: ");
-            String endDate = scanner.nextLine();
-            System.out.print("Number of children: ");
-            int numKids = scanner.nextInt();
-            System.out.print("Number of adults: ");
-            int numAdults = scanner.nextInt();
-            String query = "";
-            ArrayList<String> options = new ArrayList<String>();
-            if (numAdults + numKids > 5) {
-                System.out.println("No suitable rooms are available");
-                return;
-            }
-            if (roomCode.equals("Any") && !(bed.equals("Any"))) {
-                query = "with roomsAvail as (select distinct Room from lab7_reservations where Room NOT IN (select Room from lab7_reservations where CheckIn <= '"
-                        + endDate + "' and Checkout >= '" + beginDate
-                        + "')), numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + (numAdults + numKids)
-                        + ")), typeBed as (select RoomCode from lab7_rooms where bedType = '" + bed
-                        + "') select RANK() OVER (PARTITION BY roomsAvail.Room) as num, roomsAvail.Room as room from roomsAvail join numGuests on roomsAvail.Room = numGuests.RoomCode join typeBed on roomsAvail.Room = typeBed.RoomCode;";
-            } else if (roomCode.equals("Any") && bed.equals("Any")) {
-                query = "with roomsAvail as (select distinct Room from lab7_reservations where Room NOT IN (select Room from lab7_reservations where CheckIn <= '"
-                        + endDate + "' and Checkout >= '" + beginDate
-                        + "')), numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + (numAdults + numKids)
-                        + ")) select RANK() OVER (PARTITION BY roomsAvail.Room) as num, roomsAvail.Room from roomsAvail as room join numGuests on roomsAvail.Room = numGuests.RoomCode";
-            } else if (!(roomCode.equals("Any")) && bed.equals("Any")) {
-                query = "with numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + (numKids + numAdults)
-                        + ")) select RANK() OVER (PARTITION BY lab7_rooms.RoomCode) as num, lab7_rooms.RoomCode as room from lab7_rooms join numGuests on lab7_rooms.RoomCode = numGuests.RoomCode where lab7_rooms.RoomCode = '"
-                        + roomCode
-                        + "' and lab7_rooms.RoomCode NOT IN (select Room from lab7_reservations where CheckIn <= '"
-                        + endDate + "' and CheckOut >= '" + beginDate + "')";
-            } else if (!(roomCode.equals("Any")) && !(bed.equals("Any"))) {
-                query = "with numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + numKids + numAdults
-                        + ")) select RANK() OVER (PARTITION BY lab7_rooms.RoomCode) as num, lab7_rooms.RoomCode as room from lab7_rooms join numGuests on lab7_rooms.RoomCode = numGuests.RoomCode where lab7_rooms.RoomCode = '"
-                        + roomCode + "' and lab7_rooms.bedType = '" + bed
-                        + "' and lab7_rooms.RoomCode NOT IN (select Room from lab7_reservations where CheckIn <= '"
-                        + endDate + "' and CheckOut >= '" + beginDate + "')";
-            }
-            prep_statement = connect.prepareStatement(query);
-            ResultSet results = prep_statement.executeQuery();
-            int numResults = 0;
-            while (results.next()) {
-                System.out.format("%n: %s\n", results.getString("num"), results.getString("room"));
-                numResults++;
-                options.add(String.format("%s %s to %s", results.getString("room"), beginDate, endDate));
-            }
-            if (numResults == 0) {
-                // do similarity queries-- suggest 5 possibilities for different rooms or dates
-                // suggest different dates
-                int n = 0;
-                while (numResults < 5) {
-                    query = "with roomsAvail as (select distinct Room, CheckIn, CheckOut, DATE_ADD('" + beginDate
-                            + "', INTERVAL " + n + " DAY) as beginDate, DATE_ADD('" + endDate + "', INTERVAL " + n
-                            + "DAY) as endDate from lab7_reservations where Room NOT IN (select Room from lab7_reservations where CheckIn <= (select DATE_ADD('"
-                            + endDate + "', INTERVAL " + n + " DAY)) and Checkout >= (select DATE_ADD('" + beginDate
-                            + "', INTERVAL " + n
-                            + " DAY)))), numGuests as (select RoomCode from lab7_rooms where maxOcc >= ("
-                            + (numKids + numAdults)
-                            + ")) select roomsAvail.Room as room from roomsAvail join numGuests on roomsAvail.Room = numGuests.RoomCode";
-                    prep_statement = connect.prepareStatement(query);
-                    results = prep_statement.executeQuery();
-                    while (results.next()) {
-                        System.out.format("%n: %s %s to %s\n", numResults + 1, results.getString("room"),
-                                results.getString("beginDate"), results.getString("endDate"));
-                        options.add(String.format("%s %s to %s\n", results.getString("room"),
-                                results.getString("beginDate"), results.getString("endDate")));
-                        numResults++;
-                        if (numResults == 5)
-                            break;
-                    }
-                    n++;
+            prep_statement = connect.prepareStatement("select * from lab7_reservations");
+            ResultSet rs = prep_statement.executeQuery();
+            int maxRes = 0;
+            while (rs.next()) {
+                int resNum = rs.getInt("CODE");
+                if (resNum > maxRes) {
+                    maxRes = resNum;
                 }
             }
-            System.out.print("Enter choice number or 'Cancel': ");
-            String choice = scanner.nextLine();
-            if (choice.equals("Cancel"))
+            maxRes++;
+            System.out.print("First Name: ");
+            String firstName = input.nextLine();
+            System.out.print("Last Name: ");
+            String lastName = input.nextLine();
+            System.out.println("Room Code ('any' for no preference): ");
+            String roomCode = input.nextLine();
+            System.out.println("Bed Type ('any' for no preference): ");
+            String bedType = input.nextLine();
+            System.out.println("Start Date (yyyy-mm-dd): ");
+            String startDate = input.nextLine();
+            System.out.println("End Date (yyyy-mm-dd): ");
+            String endDate = input.nextLine();
+            System.out.println("Number of Children: ");
+            String children = input.nextLine();
+            System.out.println("Number of Adults: ");
+            String adults = input.nextLine();
+            if (firstName.isEmpty() || lastName.isEmpty() || roomCode.isEmpty() || bedType.isEmpty()
+                    || startDate.isEmpty() || endDate.isEmpty() || children.isEmpty() || adults.isEmpty()) {
+                System.out.println("All values are required to book a room, please try again");
                 return;
-            String roomChoice = options.get(Integer.parseInt(choice) - 1);
-            String room = roomChoice.split(" ")[0];
-            beginDate = roomChoice.split(" ")[1];
-            endDate = roomChoice.split(" ")[2];
-            System.out.println("Confirming reservation");
-            System.out.println("First Name: " + firstName);
-            System.out.println("Last Name: " + lastName);
-            System.out.println("Check In Date: " + beginDate + ", Check Out Date: " + endDate);
-            query = "with total as(select RoomCode, RoomName, bedType, basePrice, 1.18*((DATEDIFF('" + endDate + "', '"
-                    + beginDate + "') * basePrice)) as totalCost from lab7_rooms where RoomCode = '" + room
-                    + "'), weekend as(select basePrice, CASE WHEN DAYOFWEEK('" + endDate + "') < DAYOFWEEK('"
-                    + beginDate + "') and DAYOFWEEK('" + endDate + "') = 1 then 1 WHEN DAYOFWEEK('" + endDate
-                    + "') < DAYOFWEEK('" + beginDate + "') and DAYOFWEEK('" + endDate + "') > 1 then 2 WHEN DAYOFWEEK('"
-                    + endDate + "') = DAYOFWEEK('" + beginDate + "') then 2 WHEN DAYOFWEEK('" + beginDate
-                    + "') > 1 and DAYOFWEEK('" + endDate
-                    + "') < 7 then 0 ELSE 0 END as weekendCost from lab7_rooms where RoomCode = '" + room
-                    + "') select RoomCode, RoomName, bedType, totalCost + 0.1*(weekend.BasePrice*weekend.weekendCost) as total_cost from total join weekend";
-            prep_statement = connect.prepareStatement(query);
-            results = prep_statement.executeQuery();
-            String basePrice = "100";
-            while (results.next()) {
-                System.out.format("Room Code: %s, Room name: %s, Bed Type: %s\n", results.getString("RoomCode"),
-                        results.getString("RoomName"), results.getString("bedType"));
-                System.out.format("Total Cost of Stay: $%d\n", results.getString("total_cost"));
-                basePrice = results.getString("basePrice");
-                System.out.println("Number of adults: " + numAdults + ", Number of kids: " + numKids);
             }
-            System.out.print("Enter 'Confirm' to confirm your reservation, or 'Cancel' to cancel: ");
-            choice = scanner.nextLine();
-            if (choice.equals("Cancel"))
+            int childrenNum = Integer.parseInt(children);
+            int adultNum = Integer.parseInt(adults);
+            int occ = childrenNum + adultNum;
+            int count = 0;
+            boolean found = false;
+            boolean roomCodeFound = false;
+            boolean bedTypeFound = false;
+            String query = "select *, rank() over (order by RoomCode) roomOption from lab7_rooms where RoomCode not in (select Room from lab7_reservations join lab7_rooms on Room=RoomCode where (CheckIn <= ? and CheckOut > ?) and maxOcc >= ?)";
+            if (!roomCode.toLowerCase().equals("any")) {
+                roomCodeFound = true;
+                query += " and RoomCode = ?";
+            }
+            if (!bedType.toLowerCase().equals("any")) {
+                bedTypeFound = true;
+                query += " and bedType = ?";
+            }
+            prep_statement = connect.prepareStatement(query);
+            prep_statement.setString(1, endDate);
+            prep_statement.setString(2, startDate);
+            prep_statement.setInt(3, occ);
+            if (roomCodeFound) {
+                prep_statement.setString(4, roomCode);
+                if (bedTypeFound) {
+                    prep_statement.setString(5, bedType);
+                }
+            } else {
+                if (bedTypeFound) {
+                    prep_statement.setString(4, bedType);
+                }
+            }
+            rs = prep_statement.executeQuery();
+            int maximumOccupancy = 0;
+            ArrayList<String[]> rooms = new ArrayList<String[]>();
+            while (rs.next()) {
+                count++;
+                found = true;
+                String roomOption = rs.getString("roomOption");
+                roomCode = rs.getString("RoomCode");
+                ;
+                String roomName = rs.getString("RoomName");
+                int beds = rs.getInt("Beds");
+                bedType = rs.getString("bedType");
+                int maxOcc = rs.getInt("maxOcc");
+                int basePrice = rs.getInt("basePrice");
+                String[] roomInfo = new String[] { roomCode, roomName, bedType, Integer.toString(basePrice) };
+                rooms.add(roomInfo);
+                String decor = rs.getString("decor");
+                if (count == 1) {
+                    System.out.format("\n| %-6s | %-8s | %-30s | %-4s | %-10s | %-10s | %-10s | %-15s |%n", "Option",
+                            "Code", "Name", "Beds", "BedType", "Max Guests", "base price", "Decor");
+                }
+                System.out.format("| %-6s | %-8s | %-30s | %4d | %-10s | %10d | %10d | %-15s |%n", roomOption, roomCode,
+                        roomName, beds, bedType, maxOcc, basePrice, decor);
+                if (maxOcc > maximumOccupancy) {
+                    maximumOccupancy = maxOcc;
+                }
+            }
+            System.out.println();
+            if (count == 0) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Calendar c = Calendar.getInstance();
+                c.setTime(sdf.parse(startDate));
+                c.add(Calendar.DAY_OF_MONTH, 3);
+                endDate = sdf.format(c.getTime());
+                System.out
+                        .println("\nCould not find a matching room during this interval, instead showing rooms between "
+                                + startDate + " and " + endDate);
+                prep_statement = connect.prepareStatement(
+                        "select *, rank() over(order by RoomCode) roomOption from lab7_rooms where RoomCode not in (select Room from lab7_rooms join lab7_reservations on Room=RoomCode where (CheckIn <= ? and CheckOut > ?) and maxOcc >= ?)");
+                prep_statement.setString(1, endDate);
+                prep_statement.setString(2, startDate);
+                prep_statement.setInt(3, occ);
+                rs = prep_statement.executeQuery();
+                while (rs.next()) {
+                    count++;
+                    found = true;
+                    String roomOption = rs.getString("roomOption");
+                    roomCode = rs.getString("RoomCode");
+                    String roomName = rs.getString("RoomName");
+                    int beds = rs.getInt("Beds");
+                    bedType = rs.getString("bedType");
+                    int maxOcc = rs.getInt("maxOcc");
+                    int basePrice = rs.getInt("basePrice");
+                    String[] roomInfo = new String[] { roomCode, roomName, bedType, Integer.toString(basePrice) };
+                    rooms.add(roomInfo);
+                    String decor = rs.getString("decor");
+                    if (count == 1) {
+                        System.out.format("| %-6s | %-8s | %-30s | %-4s | %-10s | %-10s | %-10s | %-15s |%n", "Option",
+                                "Code", "Name", "Beds", "BedType", "Max Guests", "base price", "Decor");
+                    }
+                    System.out.format("| %-6s | %-8s | %-30s | %4d | %-10s | %10d | %10d | %-15s |%n", roomOption,
+                            roomCode, roomName, beds, bedType, maxOcc, basePrice, decor);
+                    if (maxOcc > maximumOccupancy) {
+                        maximumOccupancy = maxOcc;
+                    }
+                }
+            }
+            if (maximumOccupancy < occ) {
+                System.out.println("We're sorry, we are currently unable to host any parties larger than "
+                        + Integer.toString(maximumOccupancy) + " people, please consider booking multiple rooms");
                 return;
-            // add reservation to database
-            query = "select MAX(CODE) as max_code from lab7_reservations";
-            prep_statement = connect.prepareStatement(query);
-            results = prep_statement.executeQuery();
-            String newCode = "";
-            while (results.next()) {
-                newCode = results.getString("max_code");
             }
-            query = "insert into lab7_reservations(CODE, Room, CheckIn, Checkout, Rate, LastName, FirstName, Adults, Kids) values("
-                    + newCode + " + 1, '" + room + "', '" + beginDate + "', '" + endDate + "', " + basePrice + ", '"
-                    + firstName + "', '" + lastName + "', " + numAdults + ", " + numKids + ")";
-            prep_statement = connect.prepareStatement(query);
-            results = prep_statement.executeQuery();
+            if (found) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+                Calendar startC = Calendar.getInstance();
+                startC.setTime(df.parse(startDate));
+                Calendar endC = Calendar.getInstance();
+                endC.setTime(df.parse(endDate));
+                int workDays = 0;
+                int totalDays = 0;
+                while (startC.getTimeInMillis() < endC.getTimeInMillis()) {
+                    if (startC.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
+                            && startC.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+                        workDays++;
+                    }
+                    totalDays++;
+                    startC.add(Calendar.DAY_OF_MONTH, 1);
+                }
+                System.out.println("Enter the Option number of the room you'd like to select: ");
+                int selectedRoom = Integer.parseInt(input.nextLine());
+                String[] chosenRoom = rooms.get(selectedRoom - 1);
+                int bp = Integer.parseInt(chosenRoom[3]);
+                double totalCost = (bp * workDays + bp * 1.1 * (totalDays - workDays)) * 1.18;
+                System.out.println("\nFirst Name: " + firstName);
+                System.out.println("Last Name: " + lastName);
+                System.out.println("Room Code: " + chosenRoom[0]);
+                System.out.println("Room Name: " + chosenRoom[1]);
+                System.out.println("Bed Type: " + chosenRoom[2]);
+                System.out.println("Start Date: " + startDate);
+                System.out.println("End Date: " + endDate);
+                System.out.println("Adults: " + adults);
+                System.out.println("Children: " + children);
+                System.out.println("Total Cost: $" + String.valueOf(totalCost));
+                System.out.println("\nConfirm? (y/n): ");
+                String confirmation = input.nextLine();
+                switch (confirmation) {
+                case "y":
+                    String reservationCode = Integer.toString(maxRes);
+                    prep_statement = connect.prepareStatement(
+                            "insert into lab7_reservations (Code, Room, CheckIn, CheckOut, Rate, LastName, FirstName, Adults, Kids) values (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+                    prep_statement.setString(1, reservationCode);
+                    prep_statement.setString(2, chosenRoom[0]);
+                    prep_statement.setString(3, startDate);
+                    prep_statement.setString(4, endDate);
+                    prep_statement.setInt(5, bp);
+                    prep_statement.setString(6, lastName.toUpperCase());
+                    prep_statement.setString(7, firstName.toUpperCase());
+                    prep_statement.setInt(8, adultNum);
+                    prep_statement.setInt(9, childrenNum);
+                    prep_statement.executeUpdate();
+                    System.out.println("\nReservation Confirmed");
+                    System.out.println("Reservation Code: " + reservationCode);
+                    break;
+                default:
+                    System.out.println("\nReservation not confirmed, returning to menu");
+                }
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -213,7 +267,7 @@ public class InnReservations {
             String numAdults = scanner.nextLine();
 
             int codeNum = Integer.parseInt(code);
-
+            scanner.close();
             if (!firstName.equals("")) {
                 PreparedStatement prep_statement = connect
                         .prepareStatement("UPDATE lab7_reservations SET firstname = ? WHERE Code = ?");
@@ -469,7 +523,7 @@ public class InnReservations {
         // + "September DECIMAL(10,2),\n" + "October DECIMAL(10,2),\n"
         // + "November DECIMAL(10,2),\n" + "December DECIMAL(10,2),\n"
         // + "YearRevenue DECIMAL(10,2),\n" + "\n" + "PRIMARY KEY (Room)\n" + ");";
-        // pstmt = conn.prepareStatement(query);
+        // pstmt = connect.prepareStatement(query);
         // pstmt.executeUpdate();
         // query = "SELECT room, MONTHNAME(STR_TO_DATE(month_checkin, '%m')),
         // ROUND(SUM(MonthRev),0) as MonthRevenue\n"
@@ -497,7 +551,7 @@ public class InnReservations {
         // + " order by room, month_checkin\n" + " )\n" + ") as m1\n"
         // + "GROUP BY room, month_checkin\n" + "ORDER BY room, month_checkin\n" + " \n"
         // + ";";
-        // pstmt = conn.prepareStatement(query);
+        // pstmt = connect.prepareStatement(query);
         // rs = pstmt.executeQuery();
         // int count = 0;
         // float sum = 0;
@@ -512,7 +566,7 @@ public class InnReservations {
         // June, July, August, September, October, November, December, YearRevenue)
         // VALUES(?, "
         // + revz + ", ?);";
-        // pstmt = conn.prepareStatement(query);
+        // pstmt = connect.prepareStatement(query);
         // pstmt.setString(1, room);
         // pstmt.setFloat(2, sum);
         // pstmt.executeUpdate();
@@ -538,10 +592,10 @@ public class InnReservations {
         // + " ROUND(SUM(December),0) as Decem,\n" + " ROUND(SUM(YearRevenue),0) as
         // Rev\n"
         // + " from revenue\n" + " ) as w1;";
-        // pstmt = conn.prepareStatement(query);
+        // pstmt = connect.prepareStatement(query);
         // pstmt.executeUpdate();
         // query = "select * from revenue";
-        // pstmt = conn.prepareStatement(query);
+        // pstmt = connect.prepareStatement(query);
         // rs = pstmt.executeQuery();
         // System.out.format(
         // "| %-8s | %-8s | %-8s | %-8s | %-8s | %-8s | %-8s| %-8s| %-8s | %-9s | %-8s |
@@ -572,7 +626,7 @@ public class InnReservations {
         // December, YearRevenue);
         // }
         // query = "drop table revenue;";
-        // pstmt = conn.prepareStatement(query);
+        // pstmt = connect.prepareStatement(query);
         // pstmt.executeUpdate();
         // } catch (Exception e) {
         // System.out.println(e);
@@ -650,11 +704,12 @@ public class InnReservations {
         printMenu(connect);
         System.out.print("Please enter an option: ");
         String option = scanner.nextLine();
+        scanner.close();
         if (option.equalsIgnoreCase("Room")) {
             roomsAndRates(connect);
             return;
         } else if (option.equalsIgnoreCase("Book")) {
-            reservations(connect);
+            reservations(connect, scanner);
             return;
         } else if (option.equalsIgnoreCase("Edit")) {
             reservationsChange(connect);
