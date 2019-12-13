@@ -69,7 +69,7 @@ public class InnReservations {
             int numKids = scanner.nextInt();
             System.out.print("Number of adults: ");
             int numAdults = scanner.nextInt();
-            String query = "";
+            PreparedStatement pstmt = connect.prepareStatement("");
             ArrayList<String> options = new ArrayList<String>();
             if(numAdults + numKids > 5)
             {
@@ -78,22 +78,37 @@ public class InnReservations {
             }
             if(roomCode.equals("Any") && !(bed.equals("Any")))
             {
-               query = "with roomsAvail as (select distinct Room from lab7_reservations where Room NOT IN (select Room from lab7_reservations where CheckIn <= '" + endDate + "' and Checkout >= '" + beginDate + "')), numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + (numAdults+numKids)+")), typeBed as (select RoomCode from lab7_rooms where bedType = '" + bed + "') select RANK() OVER (PARTITION BY roomsAvail.Room) as num, roomsAvail.Room as room from roomsAvail join numGuests on roomsAvail.Room = numGuests.RoomCode join typeBed on roomsAvail.Room = typeBed.RoomCode;";
+               pstmt = connect.prepareStatement("with roomsAvail as (select distinct Room from lab7_reservations where Room NOT IN (select Room from lab7_reservations where CheckIn <= ? and Checkout >= ?)), numGuests as (select RoomCode from lab7_rooms where maxOcc >= (?)), typeBed as (select RoomCode from lab7_rooms where bedType = ?) select RANK() OVER (PARTITION BY roomsAvail.Room) as num, roomsAvail.Room as room from roomsAvail join numGuests on roomsAvail.Room = numGuests.RoomCode join typeBed on roomsAvail.Room = typeBed.RoomCode");
+               pstmt.setDate(1, java.sql.Date.valueOf(endDate));
+               pstmt.setDate(2, java.sql.Date.valueOf(beginDate));
+               pstmt.setInt(3, numKids+numAdults);
+               pstmt.setString(4, bed);
             }
             else if(roomCode.equals("Any") && bed.equals("Any"))
             {
-               query = "with roomsAvail as (select distinct Room from lab7_reservations where Room NOT IN (select Room from lab7_reservations where CheckIn <= '" + endDate +"' and Checkout >= '" + beginDate + "')), numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + (numAdults+numKids) + ")) select RANK() OVER (PARTITION BY roomsAvail.Room) as num, roomsAvail.Room from roomsAvail as room join numGuests on roomsAvail.Room = numGuests.RoomCode";
+               pstmt = connect.prepareStatement("with roomsAvail as (select distinct Room from lab7_reservations where Room NOT IN (select Room from lab7_reservations where CheckIn <= ? and Checkout >= ?)), numGuests as (select RoomCode from lab7_rooms where maxOcc >= (?)) select RANK() OVER (PARTITION BY roomsAvail.Room) as num, roomsAvail.Room from roomsAvail as room join numGuests on roomsAvail.Room = numGuests.RoomCode");
+               pstmt.setDate(1, java.sql.Date.valueOf(endDate));
+               pstmt.setDate(2, java.sql.Date.valueOf(beginDate));
+               pstmt.setInt(3, numKids+numAdults);
             }
             else if(!(roomCode.equals("Any")) && bed.equals("Any"))
             {
-               query = "with numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + (numKids+numAdults)+")) select RANK() OVER (PARTITION BY lab7_rooms.RoomCode) as num, lab7_rooms.RoomCode as room from lab7_rooms join numGuests on lab7_rooms.RoomCode = numGuests.RoomCode where lab7_rooms.RoomCode = '" + roomCode + "' and lab7_rooms.RoomCode NOT IN (select Room from lab7_reservations where CheckIn <= '" + endDate + "' and CheckOut >= '" + beginDate + "')";
+               pstmt = connect.prepareStatement("with numGuests as (select RoomCode from lab7_rooms where maxOcc >= (?)) select RANK() OVER (PARTITION BY lab7_rooms.RoomCode) as num, lab7_rooms.RoomCode as room from lab7_rooms join numGuests on lab7_rooms.RoomCode = numGuests.RoomCode where lab7_rooms.RoomCode = ? and lab7_rooms.RoomCode NOT IN (select Room from lab7_reservations where CheckIn <= ? and CheckOut >= ?)");
+               pstmt.setInt(1, numKids + numAdults);
+               pstmt.setString(2, roomCode);
+               pstmt.setDate(3, java.sql.Date.valueOf(endDate));
+               pstmt.setDate(4, java.sql.Date.valueOf(beginDate));
             }
             else if(!(roomCode.equals("Any")) && !(bed.equals("Any")))
             {
-               query = "with numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + numKids+numAdults +")) select RANK() OVER (PARTITION BY lab7_rooms.RoomCode) as num, lab7_rooms.RoomCode as room from lab7_rooms join numGuests on lab7_rooms.RoomCode = numGuests.RoomCode where lab7_rooms.RoomCode = '"+ roomCode + "' and lab7_rooms.bedType = '" + bed + "' and lab7_rooms.RoomCode NOT IN (select Room from lab7_reservations where CheckIn <= '" + endDate+ "' and CheckOut >= '" + beginDate + "')";
+               pstmt = connect.prepareStatement("with numGuests as (select RoomCode from lab7_rooms where maxOcc >= (?)) select RANK() OVER (PARTITION BY lab7_rooms.RoomCode) as num, lab7_rooms.RoomCode as room from lab7_rooms join numGuests on lab7_rooms.RoomCode = numGuests.RoomCode where lab7_rooms.RoomCode = ? and lab7_rooms.bedType = ? and lab7_rooms.RoomCode NOT IN (select Room from lab7_reservations where CheckIn <= ? and CheckOut >= ?)");
+               pstmt.setInt(1, numKids+numAdults);
+               pstmt.setString(2, roomCode);
+               pstmt.setString(3, bed);
+               pstmt.setDate(4, java.sql.Date.valueOf(endDate));
+               pstmt.setDate(5, java.sql.Date.valueOf(beginDate));
             }
-            prep_statement = connect.prepareStatement(query);
-            ResultSet results = prep_statement.executeQuery();
+            ResultSet results = pstmt.executeQuery();
             int numResults = 0;
             while(results.next())
             {
@@ -108,9 +123,17 @@ public class InnReservations {
                int n = 0;
                while(numResults < 5)
                {
-                  query = "with roomsAvail as (select distinct Room, CheckIn, CheckOut, DATE_ADD('"+beginDate+"', INTERVAL "+n+" DAY) as beginDate, DATE_ADD('"+endDate+"', INTERVAL " + n + "DAY) as endDate from lab7_reservations where Room NOT IN (select Room from lab7_reservations where CheckIn <= (select DATE_ADD('" + endDate + "', INTERVAL " + n + " DAY)) and Checkout >= (select DATE_ADD('"+ beginDate + "', INTERVAL " + n + " DAY)))), numGuests as (select RoomCode from lab7_rooms where maxOcc >= (" + (numKids+numAdults) + ")) select roomsAvail.Room as room from roomsAvail join numGuests on roomsAvail.Room = numGuests.RoomCode";
-                  prep_statement = connect.prepareStatement(query);
-                  results = prep_statement.executeQuery();
+                  pstmt = connect.prepareStatement("with roomsAvail as (select distinct Room, CheckIn, CheckOut, DATE_ADD(?, INTERVAL ? DAY) as beginDate, DATE_ADD(?, INTERVAL ? DAY) as endDate from lab7_reservations where Room NOT IN (select Room from lab7_reservations where CheckIn <= (select DATE_ADD(?, INTERVAL ? DAY)) and Checkout >= (select DATE_ADD(?, INTERVAL ? DAY)))), numGuests as (select RoomCode from lab7_rooms where maxOcc >= (?)) select roomsAvail.Room as room from roomsAvail join numGuests on roomsAvail.Room = numGuests.RoomCode");
+                  pstmt.setDate(1, java.sql.Date.valueOf(beginDate));
+                  pstmt.setInt(2, n);
+                  pstmt.setDate(3, java.sql.Date.valueOf(endDate));
+                  pstmt.setInt(4, n);
+                  pstmt.setDate(5, java.sql.Date.valueOf(endDate));
+                  pstmt.setInt(6, n);
+                  pstmt.setDate(7, java.sql.Date.valueOf(beginDate));
+                  pstmt.setInt(8, n);
+                  pstmt.setInt(9, numKids+numAdults);
+                  results = pstmt.executeQuery();
                   while(results.next())
                   {
                      System.out.format("%n: %s %s to %s\n", numResults+1, results.getString("room"), results.getString("beginDate"), results.getString("endDate"));
@@ -134,15 +157,28 @@ public class InnReservations {
             System.out.println("First Name: " + firstName);
             System.out.println("Last Name: " + lastName);
             System.out.println("Check In Date: " + beginDate +", Check Out Date: " + endDate);
-            query = "with total as(select RoomCode, RoomName, bedType, basePrice, 1.18*((DATEDIFF('" + endDate + "', '" + beginDate + "') * basePrice)) as totalCost from lab7_rooms where RoomCode = '" + room +"'), weekend as(select basePrice, CASE WHEN DAYOFWEEK('" + endDate + "') < DAYOFWEEK('" + beginDate + "') and DAYOFWEEK('" + endDate +"') = 1 then 1 WHEN DAYOFWEEK('" + endDate +"') < DAYOFWEEK('" + beginDate + "') and DAYOFWEEK('" + endDate + "') > 1 then 2 WHEN DAYOFWEEK('" + endDate + "') = DAYOFWEEK('" + beginDate + "') then 2 WHEN DAYOFWEEK('" + beginDate + "') > 1 and DAYOFWEEK('" + endDate + "') < 7 then 0 ELSE 0 END as weekendCost from lab7_rooms where RoomCode = '" + room + "') select RoomCode, RoomName, bedType, totalCost + 0.1*(weekend.BasePrice*weekend.weekendCost) as total_cost from total join weekend";
-            prep_statement = connect.prepareStatement(query);
-            results = prep_statement.executeQuery();
-            String basePrice = "100";
+            pstmt = connect.prepareStatement("with total as(select RoomCode, RoomName, bedType, basePrice, 1.18*((DATEDIFF(?, ?) * basePrice)) as totalCost from lab7_rooms where RoomCode = ?), weekend as(select basePrice, CASE WHEN DAYOFWEEK(?) < DAYOFWEEK(?) and DAYOFWEEK(?) = 1 then 1 WHEN DAYOFWEEK(?) < DAYOFWEEK(?) and DAYOFWEEK(?) > 1 then 2 WHEN DAYOFWEEK(?) = DAYOFWEEK(?) then 2 WHEN DAYOFWEEK(?) > 1 and DAYOFWEEK(?) < 7 then 0 ELSE 0 END as weekendCost from lab7_rooms where RoomCode = ?) select RoomCode, RoomName, bedType, totalCost + 0.1*(weekend.BasePrice*weekend.weekendCost) as total_cost from total join weekend");
+            pstmt.setDate(1, java.sql.Date.valueOf(endDate));
+            pstmt.setDate(2, java.sql.Date.valueOf(beginDate));
+            pstmt.setString(3, room);
+            pstmt.setDate(4, java.sql.Date.valueOf(endDate));
+            pstmt.setDate(5, java.sql.Date.valueOf(beginDate));
+            pstmt.setDate(6, java.sql.Date.valueOf(endDate));
+            pstmt.setDate(7, java.sql.Date.valueOf(endDate));
+            pstmt.setDate(8, java.sql.Date.valueOf(beginDate));
+            pstmt.setDate(9, java.sql.Date.valueOf(endDate));
+            pstmt.setDate(10, java.sql.Date.valueOf(endDate));
+            pstmt.setDate(11, java.sql.Date.valueOf(beginDate));
+            pstmt.setDate(12, java.sql.Date.valueOf(beginDate));
+            pstmt.setDate(13, java.sql.Date.valueOf(endDate));
+            pstmt.setString(14, room);
+            results = pstmt.executeQuery();
+            float basePrice = 100;
             while(results.next())
             {
                System.out.format("Room Code: %s, Room name: %s, Bed Type: %s\n", results.getString("RoomCode"), results.getString("RoomName"), results.getString("bedType")); 
                System.out.format("Total Cost of Stay: $%d\n", results.getString("total_cost"));
-               basePrice = results.getString("basePrice");
+               basePrice = results.getFloat("basePrice");
                System.out.println("Number of adults: " + numAdults + ", Number of kids: " + numKids);
             }
             System.out.print("Enter 'Confirm' to confirm your reservation, or 'Cancel' to cancel: ");
@@ -150,17 +186,24 @@ public class InnReservations {
             if(choice.equals("Cancel"))
                return;
             //add reservation to database
-            query = "select MAX(CODE) as max_code from lab7_reservations";
-            prep_statement = connect.prepareStatement(query);
-            results = prep_statement.executeQuery();
-            String newCode = "";
+            pstmt = connect.prepareStatement("select MAX(CODE) as max_code from lab7_reservations");
+            results = pstmt.executeQuery();
+            int newCode = 0;
             while(results.next())
             {
-               newCode = results.getString("max_code");
+               newCode = results.getInt("max_code");
             }
-            query = "insert into lab7_reservations(CODE, Room, CheckIn, Checkout, Rate, LastName, FirstName, Adults, Kids) values(" + newCode + " + 1, '" + room + "', '" + beginDate + "', '" + endDate + "', " + basePrice + ", '" + firstName + "', '" + lastName + "', " + numAdults + ", " + numKids + ")";
-            prep_statement = connect.prepareStatement(query);
-            results = prep_statement.executeQuery();
+            pstmt = connect.prepareStatement("insert into lab7_reservations(CODE, Room, CheckIn, Checkout, Rate, LastName, FirstName, Adults, Kids) values(? + 1, ?, ?, ?, ?, ?, ?, ?, ?)");
+            pstmt.setInt(1, newCode);
+            pstmt.setString(2, room);
+            pstmt.setDate(3, java.sql.Date.valueOf(beginDate));
+            pstmt.setDate(4, java.sql.Date.valueOf(endDate));
+            pstmt.setFloat(5, basePrice);
+            pstmt.setString(6, lastName);
+            pstmt.setString(7, firstName);
+            pstmt.setInt(8, numAdults);
+            pstmt.setInt(9, numKids);
+            results = pstmt.executeQuery();
         } catch (Exception e) {
             System.out.println(e);
         }
