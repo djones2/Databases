@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Date;
 
 public class InnReservations {
     /* FR-1: Output a list of rooms to the user sorted by popularity. */
@@ -211,7 +212,7 @@ public class InnReservations {
 
     /* FR-3: Allow a user to make changes to a current reservation. */
     public static void reservationsChange(Connection connect) {
-        PreparedStatement prep_statement = null;
+
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Reservation code: ");
@@ -228,10 +229,58 @@ public class InnReservations {
             String numKids = scanner.nextLine();
             System.out.print("Number of adults: ");
             String numAdults = scanner.nextLine();
-            String query = "update lab7_reservations set LastName = " + lastName +", FirstName = " + firstName + ",CheckIn = " + beginDate + ", CheckOut = " + endDate + ",Adults = " + numAdults + ", Kids = " + numKids + "where Code = " + code;
-            prep_statement = connect.prepareStatement(query);
-            ResultSet results = prep_statement.executeQuery();
-            // System.out.format()
+
+            int codeNum = Integer.parseInt(code);
+
+            if (!firstName.equals("")) {
+                PreparedStatement prep_statement = connect.prepareStatement(
+                    "UPDATE lab7_reservations SET firstname = ? WHERE Code = ?");
+                prep_statement.setString(1, firstName);
+                prep_statement.setInt(2, codeNum);
+                prep_statement.executeUpdate();
+            }
+            if (!lastName.equals("")) {
+                PreparedStatement prep_statement = connect.prepareStatement(
+                    "UPDATE lab7_reservations SET lastname = ? WHERE Code = ?");
+                prep_statement.setString(1, lastName);
+                prep_statement.setInt(2, codeNum);
+                prep_statement.executeUpdate();
+            }
+            // TODO: check that udpated checkin and checkout dates don't
+            // conflict with existing reservations
+            if (!beginDate.equals("")) {
+                PreparedStatement prep_statement = connect.prepareStatement(
+                    "UPDATE lab7_reservations SET checkin = ? WHERE Code = ?");
+                Date parsed = new SimpleDateFormat("yyyy-MM-dd").parse(beginDate);
+                java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
+                prep_statement.setDate(1, sqlDate);
+                prep_statement.setInt(2, codeNum);
+                prep_statement.executeUpdate();
+            }
+            if (!endDate.equals("")) {
+                PreparedStatement prep_statement = connect.prepareStatement(
+                    "UPDATE lab7_reservations SET checkout = ? WHERE Code = ?");
+                Date parsed = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
+                java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
+                prep_statement.setDate(1, sqlDate);
+                prep_statement.setInt(2, codeNum);
+                prep_statement.executeUpdate();
+            }
+            if (!numKids.equals("")) {
+                PreparedStatement prep_statement = connect.prepareStatement(
+                    "UPDATE lab7_reservations SET kids = ? WHERE Code = ?");
+                prep_statement.setInt(1, Integer.parseInt(numKids));
+                prep_statement.setInt(2, codeNum);
+                prep_statement.executeUpdate();
+            }
+            if (!numAdults.equals("")) {
+                PreparedStatement prep_statement = connect.prepareStatement(
+                    "UPDATE lab7_reservations SET adults = ? WHERE Code = ?");
+                prep_statement.setInt(1, Integer.parseInt(numAdults));
+                prep_statement.setInt(2, codeNum);
+                prep_statement.executeUpdate();
+            }
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -299,10 +348,10 @@ public class InnReservations {
             roomsAndRates(connect);
             return;
         } else if (option.equalsIgnoreCase("Book")) {
-            roomsAndRates(connect);
+            reservations(connect);
             return;
         } else if (option.equalsIgnoreCase("Edit")) {
-            roomsAndRates(connect);
+            reservationsChange(connect);
             return;
         } else if (option.equalsIgnoreCase("Cancel")) {
             roomsAndRates(connect);
