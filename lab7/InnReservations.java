@@ -194,20 +194,23 @@ public class InnReservations {
                 Calendar endC = Calendar.getInstance();
                 endC.setTime(df.parse(endDate));
                 int workDays = 0;
-                int totalDays = 0;
+                int weekendDays = 0;
                 while (startC.getTimeInMillis() < endC.getTimeInMillis()) {
-                    if (startC.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
-                            && startC.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+                    if (startC.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
+                            || startC.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                         workDays++;
                     }
-                    totalDays++;
+                    else
+                    {
+                        weekendDays++;
+                    }
                     startC.add(Calendar.DAY_OF_MONTH, 1);
                 }
                 System.out.println("Enter the Option number of the room you'd like to select: ");
                 int selectedRoom = Integer.parseInt(input.nextLine());
                 String[] chosenRoom = rooms.get(selectedRoom - 1);
                 int bp = Integer.parseInt(chosenRoom[3]);
-                double totalCost = (bp * workDays + bp * 1.1 * (totalDays - workDays)) * 1.18;
+                double totalCost = (bp * workDays + bp * 1.1 * (weekendDays)) * 1.18;
                 System.out.println("\nFirst Name: " + firstName);
                 System.out.println("Last Name: " + lastName);
                 System.out.println("Room Code: " + chosenRoom[0]);
@@ -267,7 +270,7 @@ public class InnReservations {
             String numAdults = scanner.nextLine();
 
             int codeNum = Integer.parseInt(code);
-            scanner.close();
+            //scanner.close();
             if (!firstName.equals("")) {
                 PreparedStatement prep_statement = connect
                         .prepareStatement("UPDATE lab7_reservations SET firstname = ? WHERE Code = ?");
@@ -704,7 +707,7 @@ public class InnReservations {
         printMenu(connect);
         System.out.print("Please enter an option: ");
         String option = scanner.nextLine();
-        scanner.close();
+        //scanner.close();
         if (option.equalsIgnoreCase("Room")) {
             roomsAndRates(connect);
             return;
