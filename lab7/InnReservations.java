@@ -197,11 +197,11 @@ public class InnReservations {
                 while (startC.getTimeInMillis() < endC.getTimeInMillis()) {
                     if (startC.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
                             || startC.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                        workDays++;
+                        weekendDays++;
                     }
                     else
                     {
-                        weekendDays++;
+                        workDays++;
                     }
                     startC.add(Calendar.DAY_OF_MONTH, 1);
                 }
