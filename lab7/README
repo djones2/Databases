@@ -9,6 +9,8 @@ To run the program, enter the following to set up the environment variables:
     export JDBC_USER=(your username)
     export JDBC_PW=(your password)
 
+Database used was Braden Wicker, Username: Wicker PW: CSC365-F2019_013132427
+
 Then, enter the following on the command line:
 
     java InnReservations
@@ -26,3 +28,5 @@ Instructions:
     FR-5: Enter "Details" at the command prompt.
 
     FR-6: Enter "Revenue" at the command prompt.
+
+No known bugs or deficiencies. Assumed weekends begin on Friday nights for pricing purposes.

@@ -1,0 +1,762 @@
+commit 27517bdd68a31b870bc5dc5676153566180e84d7 (HEAD -> master)
+Merge: 8045a17 b274164
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Fri Dec 13 15:02:17 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+    fixed pricing
+    Conflicts:
+            lab7/InnReservations.class
+
+commit 8045a17ef920f7a2eb582d7dd4128f2986227314
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Fri Dec 13 15:01:40 2019 -0800
+
+    fixed pricing
+
+ lab7/InnReservations.class | Bin 17486 -> 17318 bytes
+ lab7/InnReservations.java  |  17 ++++++++++-------
+ 2 files changed, 10 insertions(+), 7 deletions(-)
+
+commit b274164675d2d7cf65b26e73c0f89908ac71f0fc
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Fri Dec 13 14:37:58 2019 -0800
+
+    Text edits
+
+ lab7/InnReservations.java | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
+
+commit ad2633b551736d402bd04d9e42703abad04ec109
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Fri Dec 13 14:04:58 2019 -0800
+
+    push
+
+ lab7/InnReservations.class | Bin 17486 -> 17419 bytes
+ lab7/InnReservations.java  |  10 ++++++----
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+commit 8ae6df7b47d3a47572bd5429a4b25af2f74d785c
+Merge: 9bfd097 3dfa1db
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Fri Dec 13 13:06:25 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+
+commit 9bfd09780b12374c525521d72382d75120dc3950
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Fri Dec 13 13:06:01 2019 -0800
+
+    FR2 update
+
+ lab7/InnReservations.class | Bin 18573 -> 17486 bytes
+ lab7/InnReservations.java  | 319 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------------------------------------------
+ 2 files changed, 187 insertions(+), 132 deletions(-)
+
+commit 3dfa1db5c6fa602c29a699f031b119441906f410
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Fri Dec 13 13:02:51 2019 -0800
+
+    fixed menu issue
+
+ lab7/InnReservations.class | Bin 18573 -> 17424 bytes
+ lab7/InnReservations.java  |   3 +++
+ 2 files changed, 3 insertions(+)
+
+commit 6cd064f9700fd185bafc2598c2dddd1599ec0cdd
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Fri Dec 13 12:20:55 2019 -0800
+
+    last update
+
+ lab7/InnReservations.class | Bin 14943 -> 18573 bytes
+ lab7/InnReservations.java  |  28 ++++++++++++++++------------
+ 2 files changed, 16 insertions(+), 12 deletions(-)
+
+commit 7a657b2c397c96501665aca9cfac488ae41190e7
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Fri Dec 13 12:07:11 2019 -0800
+
+    Update InnReservations.java
+
+ lab7/InnReservations.java | 329 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------------------------------------------
+ 1 file changed, 220 insertions(+), 109 deletions(-)
+
+commit efb41497a474d6954cff3a1b796a2941928072d6
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Fri Dec 13 08:09:36 2019 -0800
+
+    Updates
+    
+    FR-5 done, FR-6 done, cleanup on formatting, still need to test.
+
+ lab7/InnReservations.java | 647 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------------------------------------
+ lab7/README               |  98 +--------------------
+ 2 files changed, 398 insertions(+), 347 deletions(-)
+
+commit 4f887c3dea85ff9312f0564fb45fd74a7deef056
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Thu Dec 12 21:27:39 2019 -0800
+
+    FR-6 done
+
+ lab7/InnReservations.class | Bin 12438 -> 14943 bytes
+ lab7/InnReservations.java  |  69 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------
+ 2 files changed, 58 insertions(+), 11 deletions(-)
+
+commit fb7ad06dd9b51038cfed673b0022a2886ee64486
+Merge: ba17268 251666b
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 17:03:00 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+    fixed FR2 to have preparedStatements
+    Conflicts:
+            lab7/InnReservations.class
+
+commit ba17268181e2a5d9925a15efc3fff09cdc7768c2
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 17:01:13 2019 -0800
+
+    fixed FR2 to preparedStatements
+
+ lab7/InnReservations.class | Bin 10256 -> 12438 bytes
+ lab7/InnReservations.java  |  89 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------
+ 2 files changed, 66 insertions(+), 23 deletions(-)
+
+commit 251666b33d7144e1a9ce1f6fc8bf7ea2c0523202
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Thu Dec 12 16:49:58 2019 -0800
+
+    FR-3 almost done, just need to add date checking
+
+ lab7/InnReservations.class | Bin 10256 -> 13740 bytes
+ lab7/InnReservations.java  |  63 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------
+ 2 files changed, 56 insertions(+), 7 deletions(-)
+
+commit fbbb1fbc6c5e3f7ecb1e89c8798dadb951878e30
+Merge: 027039b d11f79b
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 15:40:51 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+    added similar query
+    Conflicts:
+            lab7/InnReservations.class
+
+commit 027039be6177e0c5809df61d8cfeade602788dc4
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 15:30:12 2019 -0800
+
+    attempt at doing FR2
+
+ lab7/InnReservations.class | Bin 0 -> 10256 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit f5e783b041aaa97ee2869cba625804dba1981fbb
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 15:28:34 2019 -0800
+
+    attempt at doing FR2
+
+ lab7/InnReservations.java | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 58 insertions(+), 4 deletions(-)
+
+commit d11f79b5737228aff1654c6a6b3cdc9a6601844c
+Merge: 9afa2c9 3d693b4
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Thu Dec 12 13:32:44 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+    
+    Conflicts:
+            lab7/InnReservations.java
+
+commit 9afa2c93b86e04147c8be099a68516fc36a8a2d6
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Thu Dec 12 13:31:12 2019 -0800
+
+    FR-1 complete
+
+ lab7/InnReservations.class | Bin 0 -> 9133 bytes
+ lab7/InnReservations.java  |  32 ++++++++++++++++++++++++--------
+ lab7/README                |   1 +
+ 3 files changed, 25 insertions(+), 8 deletions(-)
+
+commit 3d693b4e22fdfc9443c62325f57ef8fe2e866fee
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 12:35:40 2019 -0800
+
+    fixed error in R2
+
+ lab7/InnReservations.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 49ce8070e6475f8b3fd14db65a47b909e8634694
+Merge: aceb38f b86c94c
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 12:21:09 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+    Fixed minor error
+
+commit aceb38f2e64188c7e4a584b85b56656f6168cafc
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 12:20:39 2019 -0800
+
+    added to R2
+
+ lab7/InnReservations.java | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+commit b86c94cb52bfa45bff4fee4edad581da4568a6a6
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Thu Dec 12 12:02:35 2019 -0800
+
+    fixed URL in readme
+
+ lab7/README | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 0f90259338effb52a9ed68aaebb9190b6d57109f
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Thu Dec 12 12:00:22 2019 -0800
+
+    made the README reflect reality
+
+ lab7/InnReservations.java |  1 +
+ lab7/README               | 28 +++++++++++++++-------------
+ 2 files changed, 16 insertions(+), 13 deletions(-)
+
+commit fbc4babfa62302eccf76c1c84c7791e3bf04f28c
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Thu Dec 12 02:32:45 2019 -0800
+
+    put a present in the README
+
+ lab7/README | 101 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 96 insertions(+), 5 deletions(-)
+
+commit 4f665e8682ddc301d742e355c7cb11eff188711b
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 00:27:19 2019 -0800
+
+    added more to R2
+
+ lab7/InnReservations.java | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
+
+commit a668bbfc2121d0b9986565723503a81264816e31
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Wed Dec 11 16:30:12 2019 -0800
+
+    added part of FR2
+
+ lab7/InnReservations.java | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+
+commit b3fcd90ee17f7ca21330541e70cf5e670df1c6df
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Wed Dec 11 13:06:11 2019 -0800
+
+    added variables to sql statements
+
+ lab7/InnReservations.java | 69 ++++++++++++++++++++++++++++++++-------------------------------------
+ 1 file changed, 32 insertions(+), 37 deletions(-)
+
+commit a36bd99948f77908cc28cd71e2d1d07800a63033
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Tue Dec 10 15:47:07 2019 -0800
+
+    added R3 and R4
+
+ lab7/InnReservations.java | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+commit d2e1649e6b7d4b1f3d72b3b97219af9e39bf90ad
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Tue Dec 10 13:54:37 2019 -0800
+
+    first query done
+
+ lab7/InnReservations.java | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+commit 9e761c8c2c5f02446c39d14f52519b0506f9ff30
+Merge: 77e6408 16829ab
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Tue Dec 10 13:45:20 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+    "first query"
+
+commit 77e6408bca67158184e0cbf59d1110acda42f65d
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Tue Dec 10 13:44:11 2019 -0800
+
+    first query done
+
+ lab7/InnReservations.java | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
+
+commit 16829ab381d70f00c05b0635e58abde8ac82ddc7
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Tue Dec 10 13:35:53 2019 -0800
+
+    Update README
+
+ lab7/README | 29 ++++++++++++++++++++++++++---
+ 1 file changed, 26 insertions(+), 3 deletions(-)
+
+commit c3d76b307ef84f1cfc70c2e951a588845900299b
+Merge: 067b389 387baad
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Tue Dec 10 13:28:04 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+
+commit 067b38927f6bf403a86254745af299d30c6aa0cc
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Tue Dec 10 13:28:01 2019 -0800
+
+    Framework
+
+ lab7/InnReservations.java | 141 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------------------
+ 1 file changed, 119 insertions(+), 22 deletions(-)
+
+commit 387baadd21371934812aba1e5e0dd7a68635301e
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Tue Dec 10 12:58:32 2019 -0800
+
+    added shell intiialization details to README
+
+ lab7/README | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+commit d6d0d2e0c540d965eb2eb486a4e658cf617f8a50
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Tue Dec 10 12:48:11 2019 -0800
+
+    Create InnReservations.java
+
+ lab7/InnReservations.java | 58 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
+
+commit 851a00b4c0c34d25d98d2d72aa9c7e5bc45b847b
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Tue Dec 10 12:25:42 2019 -0800
+
+    Create mysql-connector-java-8.0.16.jar
+
+ lab7/mysql-connector-java-8.0.16.jar | Bin 0 -> 2293144 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 59d0ff10a62cf99bd795adc76ff780233b84ba97
+
+commit d6d0d2e0c540d965eb2eb486a4e658cf617f8a50
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Tue Dec 10 12:48:11 2019 -0800
+
+    Create InnReservations.java
+
+ lab7/InnReservations.java | 58 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
+
+commit 851a00b4c0c34d25d98d2d72aa9c7e5bc45b847b
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Tue Dec 10 12:25:42 2019 -0800
+Daniels-MacBook-Pro:lab7 danieljones$ git stash
+Saved working directory and index state WIP on master: 27517bd Merge branch 'master' of https://github.com/djones2/csc365 fixed pricing Conflicts:     lab7/InnReservations.class
+Daniels-MacBook-Pro:lab7 danieljones$ git log --stat
+commit b1c93feabbeed74d18cc97d10ed5bd9f0180fb0e (HEAD -> master, origin/master, origin/HEAD)
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Fri Dec 13 15:33:04 2019 -0800
+
+    pricing issues fixed I think
+
+ lab7/InnReservations.class | Bin 17318 -> 17406 bytes
+ lab7/InnReservations.java  |   4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 27517bdd68a31b870bc5dc5676153566180e84d7
+Merge: 8045a17 b274164
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Fri Dec 13 15:02:17 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+    fixed pricing
+    Conflicts:
+            lab7/InnReservations.class
+
+commit 8045a17ef920f7a2eb582d7dd4128f2986227314
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Fri Dec 13 15:01:40 2019 -0800
+
+    fixed pricing
+
+ lab7/InnReservations.class | Bin 17486 -> 17318 bytes
+ lab7/InnReservations.java  |  17 ++++++++++-------
+ 2 files changed, 10 insertions(+), 7 deletions(-)
+
+commit b274164675d2d7cf65b26e73c0f89908ac71f0fc
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Fri Dec 13 14:37:58 2019 -0800
+
+    Text edits
+
+ lab7/InnReservations.java | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
+
+commit ad2633b551736d402bd04d9e42703abad04ec109
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Fri Dec 13 14:04:58 2019 -0800
+
+    push
+
+ lab7/InnReservations.class | Bin 17486 -> 17419 bytes
+ lab7/InnReservations.java  |  10 ++++++----
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+commit 8ae6df7b47d3a47572bd5429a4b25af2f74d785c
+Merge: 9bfd097 3dfa1db
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Fri Dec 13 13:06:25 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+
+commit 9bfd09780b12374c525521d72382d75120dc3950
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Fri Dec 13 13:06:01 2019 -0800
+
+    FR2 update
+
+ lab7/InnReservations.class | Bin 18573 -> 17486 bytes
+ lab7/InnReservations.java  | 319 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------------------------------
+ 2 files changed, 187 insertions(+), 132 deletions(-)
+
+commit 3dfa1db5c6fa602c29a699f031b119441906f410
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Fri Dec 13 13:02:51 2019 -0800
+
+    fixed menu issue
+
+ lab7/InnReservations.class | Bin 18573 -> 17424 bytes
+ lab7/InnReservations.java  |   3 +++
+ 2 files changed, 3 insertions(+)
+
+commit 6cd064f9700fd185bafc2598c2dddd1599ec0cdd
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Fri Dec 13 12:20:55 2019 -0800
+
+    last update
+
+ lab7/InnReservations.class | Bin 14943 -> 18573 bytes
+ lab7/InnReservations.java  |  28 ++++++++++++++++------------
+ 2 files changed, 16 insertions(+), 12 deletions(-)
+
+commit 7a657b2c397c96501665aca9cfac488ae41190e7
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Fri Dec 13 12:07:11 2019 -0800
+
+    Update InnReservations.java
+
+ lab7/InnReservations.java | 329 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------------------------------
+ 1 file changed, 220 insertions(+), 109 deletions(-)
+
+commit efb41497a474d6954cff3a1b796a2941928072d6
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Fri Dec 13 08:09:36 2019 -0800
+
+    Updates
+    
+    FR-5 done, FR-6 done, cleanup on formatting, still need to test.
+
+ lab7/InnReservations.java | 647 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------------------------------------
+ lab7/README               |  98 +-----------------
+ 2 files changed, 398 insertions(+), 347 deletions(-)
+
+commit 4f887c3dea85ff9312f0564fb45fd74a7deef056
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Thu Dec 12 21:27:39 2019 -0800
+
+    FR-6 done
+
+ lab7/InnReservations.class | Bin 12438 -> 14943 bytes
+ lab7/InnReservations.java  |  69 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------
+ 2 files changed, 58 insertions(+), 11 deletions(-)
+
+commit fb7ad06dd9b51038cfed673b0022a2886ee64486
+Merge: ba17268 251666b
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 17:03:00 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+    fixed FR2 to have preparedStatements
+    Conflicts:
+            lab7/InnReservations.class
+
+commit ba17268181e2a5d9925a15efc3fff09cdc7768c2
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 17:01:13 2019 -0800
+
+    fixed FR2 to preparedStatements
+
+ lab7/InnReservations.class | Bin 10256 -> 12438 bytes
+ lab7/InnReservations.java  |  89 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------
+ 2 files changed, 66 insertions(+), 23 deletions(-)
+
+commit 251666b33d7144e1a9ce1f6fc8bf7ea2c0523202
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Thu Dec 12 16:49:58 2019 -0800
+
+    FR-3 almost done, just need to add date checking
+
+ lab7/InnReservations.class | Bin 10256 -> 13740 bytes
+ lab7/InnReservations.java  |  63 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------
+ 2 files changed, 56 insertions(+), 7 deletions(-)
+
+commit fbbb1fbc6c5e3f7ecb1e89c8798dadb951878e30
+Merge: 027039b d11f79b
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 15:40:51 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+    added similar query
+    Conflicts:
+            lab7/InnReservations.class
+
+commit 027039be6177e0c5809df61d8cfeade602788dc4
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 15:30:12 2019 -0800
+
+    attempt at doing FR2
+
+ lab7/InnReservations.class | Bin 0 -> 10256 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit f5e783b041aaa97ee2869cba625804dba1981fbb
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 15:28:34 2019 -0800
+
+    attempt at doing FR2
+
+ lab7/InnReservations.java | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 58 insertions(+), 4 deletions(-)
+
+commit d11f79b5737228aff1654c6a6b3cdc9a6601844c
+Merge: 9afa2c9 3d693b4
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Thu Dec 12 13:32:44 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+    
+    Conflicts:
+            lab7/InnReservations.java
+
+commit 9afa2c93b86e04147c8be099a68516fc36a8a2d6
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Thu Dec 12 13:31:12 2019 -0800
+
+    FR-1 complete
+
+ lab7/InnReservations.class | Bin 0 -> 9133 bytes
+ lab7/InnReservations.java  |  32 ++++++++++++++++++++++++--------
+ lab7/README                |   1 +
+ 3 files changed, 25 insertions(+), 8 deletions(-)
+
+commit 3d693b4e22fdfc9443c62325f57ef8fe2e866fee
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 12:35:40 2019 -0800
+
+    fixed error in R2
+
+ lab7/InnReservations.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 49ce8070e6475f8b3fd14db65a47b909e8634694
+Merge: aceb38f b86c94c
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 12:21:09 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+    Fixed minor error
+
+commit aceb38f2e64188c7e4a584b85b56656f6168cafc
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 12:20:39 2019 -0800
+
+    added to R2
+
+ lab7/InnReservations.java | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+commit b86c94cb52bfa45bff4fee4edad581da4568a6a6
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Thu Dec 12 12:02:35 2019 -0800
+
+    fixed URL in readme
+
+ lab7/README | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 0f90259338effb52a9ed68aaebb9190b6d57109f
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Thu Dec 12 12:00:22 2019 -0800
+
+    made the README reflect reality
+
+ lab7/InnReservations.java |  1 +
+ lab7/README               | 28 +++++++++++++++-------------
+ 2 files changed, 16 insertions(+), 13 deletions(-)
+
+commit fbc4babfa62302eccf76c1c84c7791e3bf04f28c
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Thu Dec 12 02:32:45 2019 -0800
+
+    put a present in the README
+
+ lab7/README | 101 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 96 insertions(+), 5 deletions(-)
+
+commit 4f665e8682ddc301d742e355c7cb11eff188711b
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Thu Dec 12 00:27:19 2019 -0800
+
+    added more to R2
+
+ lab7/InnReservations.java | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
+
+commit a668bbfc2121d0b9986565723503a81264816e31
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Wed Dec 11 16:30:12 2019 -0800
+
+    added part of FR2
+
+ lab7/InnReservations.java | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+
+commit b3fcd90ee17f7ca21330541e70cf5e670df1c6df
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Wed Dec 11 13:06:11 2019 -0800
+
+    added variables to sql statements
+
+ lab7/InnReservations.java | 69 ++++++++++++++++++++++++++++++++-------------------------------------
+ 1 file changed, 32 insertions(+), 37 deletions(-)
+
+commit a36bd99948f77908cc28cd71e2d1d07800a63033
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Tue Dec 10 15:47:07 2019 -0800
+
+    added R3 and R4
+
+ lab7/InnReservations.java | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+commit d2e1649e6b7d4b1f3d72b3b97219af9e39bf90ad
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Tue Dec 10 13:54:37 2019 -0800
+
+    first query done
+
+ lab7/InnReservations.java | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+commit 9e761c8c2c5f02446c39d14f52519b0506f9ff30
+Merge: 77e6408 16829ab
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Tue Dec 10 13:45:20 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+    "first query"
+
+commit 77e6408bca67158184e0cbf59d1110acda42f65d
+Author: akrysl <akrysl@calpoly.edu>
+Date:   Tue Dec 10 13:44:11 2019 -0800
+
+    first query done
+
+ lab7/InnReservations.java | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
+
+commit 16829ab381d70f00c05b0635e58abde8ac82ddc7
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Tue Dec 10 13:35:53 2019 -0800
+
+    Update README
+
+ lab7/README | 29 ++++++++++++++++++++++++++---
+ 1 file changed, 26 insertions(+), 3 deletions(-)
+
+commit c3d76b307ef84f1cfc70c2e951a588845900299b
+Merge: 067b389 387baad
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Tue Dec 10 13:28:04 2019 -0800
+
+    Merge branch 'master' of https://github.com/djones2/csc365
+
+commit 067b38927f6bf403a86254745af299d30c6aa0cc
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Tue Dec 10 13:28:01 2019 -0800
+
+    Framework
+
+ lab7/InnReservations.java | 141 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 119 insertions(+), 22 deletions(-)
+
+commit 387baadd21371934812aba1e5e0dd7a68635301e
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Tue Dec 10 12:58:32 2019 -0800
+
+    added shell intiialization details to README
+
+ lab7/README | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+commit d6d0d2e0c540d965eb2eb486a4e658cf617f8a50
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Tue Dec 10 12:48:11 2019 -0800
+
+    Create InnReservations.java
+    Framework
+
+ lab7/InnReservations.java | 141 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 119 insertions(+), 22 deletions(-)
+
+commit 387baadd21371934812aba1e5e0dd7a68635301e
+Author: bradenbug <bradenwicker@gmail.com>
+Date:   Tue Dec 10 12:58:32 2019 -0800
+
+    added shell intiialization details to README
+
+ lab7/README | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+commit d6d0d2e0c540d965eb2eb486a4e658cf617f8a50
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Tue Dec 10 12:48:11 2019 -0800
+
+    Create InnReservations.java
+
+ lab7/InnReservations.java | 58 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
+
+commit 851a00b4c0c34d25d98d2d72aa9c7e5bc45b847b
+Author: Daniel <dcjones2015@gmail.com>
+Date:   Tue Dec 10 12:25:42 2019 -0800
+
+    Create mysql-connector-java-8.0.16.jar
+
+ lab7/mysql-connector-java-8.0.16.jar | Bin 0 -> 2293144 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 59d0ff10a62cf99bd795adc76ff780233b84ba97
+Author: Daniel Jones <dcjones2015@gmail.com>
+Date:   Tue Dec 10 11:58:23 2019 -0800
+
+    Create README
+
+ lab7/README | 1 +
+ 1 file changed, 1 insertion(+)
